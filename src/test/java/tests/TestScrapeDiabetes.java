@@ -1,6 +1,8 @@
 package tests;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -13,6 +15,18 @@ import utilities.Loggerload;
 public class TestScrapeDiabetes {
 	public static WebDriver driver;
 
+	String Food_category="Vegetarian";
+
+	  @FindBy (id="ctl00_txtsearch") WebElement search_text;
+	  @FindBy (id="ctl00_imgsearch") WebElement search_btn;
+	  @FindBy (xpath="//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1") WebElement receipe_category;
+	  
+	
+	
+	
+	
+	
+	
 	@BeforeClass
 	public void testSetup() throws Throwable {
 		
