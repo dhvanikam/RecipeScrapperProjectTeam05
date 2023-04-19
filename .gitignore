@@ -1,2 +1,4 @@
-/target/
-/test-output/
+logs
+target
+test-output
+.DS_Store
