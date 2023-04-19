@@ -10,7 +10,7 @@ import driverFactory.DriverFactory;
 import utilities.ConfigReader;
 import utilities.Loggerload;
 
-public class TestScrapDiabetes {
+public class TestScrapeDiabetes {
 	public static WebDriver driver;
 
 	@BeforeClass
