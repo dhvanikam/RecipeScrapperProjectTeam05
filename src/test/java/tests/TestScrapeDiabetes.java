@@ -17,12 +17,12 @@ import org.testng.annotations.Test;
 import driverFactory.DriverFactory;
 import utilities.CommonUtilities;
 import utilities.ConfigReader;
-import utilities.ExcelUtility;
+import utilities.ExcelUtilityWriter;
 import utilities.Loggerload;
 
 public class TestScrapeDiabetes {
 	public static WebDriver driver;
-	ExcelUtility util = new ExcelUtility();
+	ExcelUtilityWriter util = new ExcelUtilityWriter();
 	CommonUtilities cmnutil = new CommonUtilities();
 
 	// Xpaths

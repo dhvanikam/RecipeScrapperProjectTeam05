@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelUtility {
+public class ExcelUtilityWriter {
 	String path = "./src/test/resources/RecipeExcelData/test.xlsx";
 	XSSFWorkbook workbook;
 	FileOutputStream fo;
