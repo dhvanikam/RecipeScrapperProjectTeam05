@@ -16,15 +16,8 @@ public class TestScrapeDiabetes {
 	public static WebDriver driver;
 
 	String Food_category="Vegetarian";
-
-	  @FindBy (id="ctl00_txtsearch") WebElement search_text;
-	  @FindBy (id="ctl00_imgsearch") WebElement search_btn;
-	  @FindBy (xpath="//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1") WebElement receipe_category;
-	  
-	
-	
-	
-	
+	String recipe_catg_path="//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1";
+	 
 	
 	
 	@BeforeClass
