@@ -51,13 +51,14 @@ public class ExcelUtility {
 		this.setCellData("recipelist", 0, 0, "Recipe ID");
 		this.setCellData("recipelist", 0, 1, "Recipe Name");
 		this.setCellData("recipelist", 0, 2, "Recipe Category");
-		this.setCellData("recipelist", 0, 3, "Food Category");
-		this.setCellData("recipelist", 0, 4, "Ingredients");
-		this.setCellData("recipelist", 0, 5, "Preparation Time");
-		this.setCellData("recipelist", 0, 6, "Cooking Time");
-		this.setCellData("recipelist", 0, 7, "Nutrient values");
-		this.setCellData("recipelist", 0, 8, "Targetted morbid conditions");
-		this.setCellData("recipelist", 0, 9, "Recipe URL");
-		
+		this.setCellData("recipelist", 0, 3, "Ingredients");
+		this.setCellData("recipelist", 0, 4, "Preparation Time");
+		this.setCellData("recipelist", 0, 5, "Cooking Time");
+		this.setCellData("recipelist", 0, 6, "Food Category");
+		this.setCellData("recipelist", 0, 7, "Preparation Method");
+		this.setCellData("recipelist", 0, 8, "Nutrient values");
+		this.setCellData("recipelist", 0, 9, "Targetted morbid conditions");
+		this.setCellData("recipelist", 0, 10, "Recipe URL");
+
 	}
 }
