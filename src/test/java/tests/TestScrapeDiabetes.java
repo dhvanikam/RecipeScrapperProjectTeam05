@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -42,18 +43,17 @@ public class TestScrapeDiabetes {
 	String nutrientValuesId = "accompaniments";
 
 	// Recipe data variables
-	WebElement recipeID;
-	WebElement recipeName;
-	WebElement recipe_category;
-	WebElement ingredients;
-	WebElement preparationTime;
-	WebElement cookingTime;
+	String recipeID;
+	String recipeName;
+	String recipe_category;
+	String ingredients;
+	String preparationTime;
+	String cookingTime;
 	String foodcategory = "Vegetarian";
-	WebElement preparationMethod;
-	WebElement nutrientValues;
+	String preparationMethod;
+	String nutrientValues;
 	String targettedMorbid = "Diabetes";
 	String recipeURL;
-	String ingredientslist;
 
 	@BeforeClass
 	public void testSetup() throws Throwable {
@@ -102,37 +102,38 @@ public class TestScrapeDiabetes {
 
 				try {
 					// Scrape from main page
-					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span"));
-					comnutil.waitForElement(recipeID);
-					eachData.put("RecipeID", recipeID.getText());
+					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span")).getText();
+					//comnutil.waitForElement(recipeID);
+					eachData.put("RecipeID", recipeID);
 
-					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"));
-					eachData.put("RecipeName", recipeName.getText());
+					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
+							.getText();
+					eachData.put("RecipeName", recipeName);
 
-					recipe_category = driver.findElement(By.xpath(recipe_catg_path));
-					eachData.put("Recipe Category", recipe_category.getText());
+					recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
+					eachData.put("Recipe Category", recipe_category);
 
 					// Click on recipe
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
 
 					// Scrape from recipe page
-					ingredients = driver.findElement(By.id(ingredientsId));
-					eachData.put("Ingredients", ingredients.getText());
-					ingredientslist = ingredients.getText();
+					ingredients = driver.findElement(By.id(ingredientsId)).getText();
+					eachData.put("Ingredients", ingredients);
 
-					preparationTime = driver.findElement(By.xpath(preparationTimeXpath));
-					comnutil.waitForElement(preparationTime);
-					eachData.put("PreparationTime", preparationTime.getText());
+					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
+					comnutil.findByXpath(driver, preparationTimeXpath);
+					preparationTime = prepTime.getText();
+					eachData.put("PreparationTime", preparationTime);
 
 					comnutil.findByXpath(driver, cookingTimeXpath);
-					cookingTime = driver.findElement(By.xpath(cookingTimeXpath));
-					eachData.put("CookingTime", cookingTime.getText());
+					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
+					eachData.put("CookingTime", cookingTime);
 
-					preparationMethod = driver.findElement(By.id(preparationMethodId));
-					eachData.put("PreparationMethod", preparationMethod.getText());
+					preparationMethod = driver.findElement(By.id(preparationMethodId)).getText();
+					eachData.put("PreparationMethod", preparationMethod);
 
-					nutrientValues = driver.findElement(By.id(nutrientValuesId));
-					eachData.put("NutrientValues", nutrientValues.getText());
+					nutrientValues = driver.findElement(By.id(nutrientValuesId)).getText();
+					eachData.put("NutrientValues", nutrientValues);
 
 					recipeURL = driver.getCurrentUrl();
 					eachData.put("RecipeURL", recipeURL);
@@ -146,7 +147,7 @@ public class TestScrapeDiabetes {
 				// Compare the eliminate List with Ingredients
 //				List<String> readEliminateList = utilReader.getDiabeticElimination();
 //
-//				isContainEliminateItem = cmnutil.hasEliminateItems(readEliminateList, ingredientslist);
+//				isContainEliminateItem = cmnutil.hasEliminateItems(readEliminateList, ingredients);
 //
 //				if (isContainEliminateItem) {
 //
