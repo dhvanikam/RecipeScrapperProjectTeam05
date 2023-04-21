@@ -15,7 +15,7 @@ public class ExcelUtilityReader {
 	public List<String> getDiabeticElimination() throws IOException
 	{
 		List<String>  eleminated_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
