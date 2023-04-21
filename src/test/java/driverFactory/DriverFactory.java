@@ -28,7 +28,7 @@ public class DriverFactory {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("headless");
-			driver = new ChromeDriver(options);
+			driver = new ChromeDriver();
 
 		} else if (browser.equalsIgnoreCase("safari")) {
 			Loggerload.info("Testing on safari");
