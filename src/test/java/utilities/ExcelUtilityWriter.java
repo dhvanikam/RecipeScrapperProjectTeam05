@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtilityWriter {
@@ -67,10 +68,25 @@ public class ExcelUtilityWriter {
 
 	}
 
-	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData,String sheetName) throws IOException {
-		Workbook workbook = new XSSFWorkbook();
-		Sheet sheet = workbook.createSheet(sheetName);
+	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName) throws IOException {
+		String path = "./src/test/resources/RecipeExcelData/RecipeData.xlsx";
 		
+		Sheet sheet = null;
+		Workbook workbook = null;
+		if (new File(path).isFile()) {
+			FileInputStream inputStream = new FileInputStream(new File(path));
+			workbook = WorkbookFactory.create(inputStream);
+			sheet = workbook.getSheet(sheetName);
+		}
+		
+		if (workbook == null) {
+			workbook = new XSSFWorkbook();
+		}
+		
+		if (sheet == null) {
+			sheet = workbook.createSheet(sheetName);
+		}
+
 		int indexRow = 0;
 		int headerCol = 0;
 		// Write header
@@ -79,7 +95,7 @@ public class ExcelUtilityWriter {
 			Cell cell_text = headerRow.createCell(headerCol++);
 			cell_text.setCellValue(eachMapItem.getKey());
 		}
-		
+
 		for (LinkedHashMap<String, String> map : allData) {
 			Row row = sheet.createRow(indexRow++);
 			int indexCol = 0;
@@ -88,8 +104,7 @@ public class ExcelUtilityWriter {
 				cell_text.setCellValue(eachMapItem.getValue());
 			}
 		}
-		FileOutputStream fileOutputStream = new FileOutputStream(
-				new File("./src/test/resources/RecipeExcelData/RecipeData.xlsx"));
+		FileOutputStream fileOutputStream = new FileOutputStream(new File(path));
 		workbook.write(fileOutputStream);
 	}
 

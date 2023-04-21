@@ -47,6 +47,20 @@ public class TestScrapeAll {
 	@Test
 	public void test01loop() throws IOException, InterruptedException {
 		scrapeutil.test01loop(driver, "PCOS");
+
+	
+	}
+	@Test
+	public void test02loop() throws IOException, InterruptedException {
+
+		scrapeutil.test01loop(driver, "Hyperthyroidism");
+	
+	}
+	@Test
+	public void test03loop() throws IOException, InterruptedException {
+	
+		scrapeutil.test01loop(driver, "Diabetic");
+	
 	}
 
 	@AfterClass

@@ -46,7 +46,7 @@ public class ScraperUtility {
 		// morbiditi = ConfigReader.getMorbiditi();
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
-		System.out.println(morbiditiLink);
+		
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
@@ -137,6 +137,6 @@ public class ScraperUtility {
 			}
 
 		}
-		util.saveDataToExcel(allData, "Diabetes");
+		util.saveDataToExcel(allData, morbiditi);
 	}
 }
