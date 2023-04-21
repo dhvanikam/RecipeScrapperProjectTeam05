@@ -44,4 +44,12 @@ public class ConfigReader {
 			throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
 
+	public static String getMorbiditi() {
+		String url = properties.getProperty("morbiditi");
+		if (url != null)
+			return url;
+		else
+			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+	}
+
 }

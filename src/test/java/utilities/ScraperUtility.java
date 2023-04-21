@@ -1,4 +1,4 @@
-package tests;
+package utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,22 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import driverFactory.DriverFactory;
-import utilities.CommonUtilities;
-import utilities.ConfigReader;
-import utilities.ExcelUtilityReader;
-import utilities.ExcelUtilityWriter;
-import utilities.Loggerload;
-
-public class TestScrapeDiabetes {
+public class ScraperUtility {
 	public static WebDriver driver;
 	ExcelUtilityWriter util = new ExcelUtilityWriter();
 	CommonUtilities comnutil = new CommonUtilities();
@@ -29,11 +17,10 @@ public class TestScrapeDiabetes {
 	boolean isContainEliminateItem;
 
 	// Locators
-	//String morbiditi=ConfigReader.getMorbiditi();
+	// String morbiditi=ConfigReader.getMorbiditi();
 	String recipesButton = "//*[@id='nav']/li[1]/a";
 	String recipelist = "//*[@id='maincontent']//article";
 	String listRecipes = "//*[@id='maincontent']//article";
-	//String recipeIDXpath = "//*[contains(text(),'Recipe#')]";
 	String recipeNameClassName = "rcc_recipename";
 	String recipe_catg_path = "//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1";
 	String ingredientsId = "rcpinglist";
@@ -55,33 +42,15 @@ public class TestScrapeDiabetes {
 	String targettedMorbid = "Diabetes";
 	String recipeURL;
 
-	@BeforeClass
-	public void testSetup() throws Throwable {
-		// Get browser Type from Config file
-		Loggerload.info("Loading Config file");
-		ConfigReader.loadConfig();
-		String browser = ConfigReader.getBrowserType();
-
-		// Initialize driver from driver factory
-		driver = DriverFactory.initializeDrivers(browser);
-		Loggerload.info("Initializing driver for : " + browser);
-	}
-
-	@BeforeMethod
-	public void openBrowser() {
-		driver.get(ConfigReader.getApplicationUrl());
-		System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
-	}
-
-	@Test
-	public void test01loop() throws IOException, InterruptedException {
-		String morbiditi=ConfigReader.getMorbiditi();
-		String diabeteslink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"+morbiditi+"')]";
-		
+	public void test01loop(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
+		// morbiditi = ConfigReader.getMorbiditi();
+		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
+				+ morbiditi + "')]";
+		System.out.println(morbiditiLink);
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
-		driver.findElement(By.xpath(diabeteslink)).click();
+		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
 
 		// Thread.sleep(2000);
@@ -109,7 +78,7 @@ public class TestScrapeDiabetes {
 							.getText();
 					// comnutil.waitForElement(recipeID);
 					eachData.put("RecipeID", recipeID);
-					
+
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
 							.getText();
 					eachData.put("RecipeName", recipeName);
@@ -150,7 +119,9 @@ public class TestScrapeDiabetes {
 
 				// Compare the eliminate List with Ingredients
 				List<String> readEliminateList = utilReader.getDiabeticElimination();
-
+				if(ingredients==null) {
+					ingredients="";
+				}
 				isContainEliminateItem = comnutil.hasEliminateItems(readEliminateList, ingredients);
 
 				if (isContainEliminateItem) {
@@ -168,10 +139,4 @@ public class TestScrapeDiabetes {
 		}
 		util.saveDataToExcel(allData, "Diabetes");
 	}
-
-	@AfterClass
-	public void afterClass() {
-		driver.quit();
-	}
-
 }
