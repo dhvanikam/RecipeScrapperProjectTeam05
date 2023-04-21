@@ -12,265 +12,143 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtilityReader {
 	
-	public List<String> getDiabeticElimination() throws IOException
-	{
-		List<String>  eleminated_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-		//int cols=sheet.getRow(1).getLastCellNum();
-		
-		for(int r=2,c=0;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
+	public List<String> getmorbidityElimination(String morbidity) throws IOException {
+		List<String> eleminated_list = new ArrayList<String>();
+		String excelfilepath = "./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
+		FileInputStream iputstream = new FileInputStream(excelfilepath);
+
+		XSSFWorkbook workbook = new XSSFWorkbook(iputstream);
+
+		XSSFSheet sheet = workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
+		int rows = sheet.getLastRowNum();
+
+		for (int r = 2; r <= rows; r++) {
+
+			XSSFRow row = sheet.getRow(r);
+
+			switch (morbidity) {
+			case "Diabetes":
+
+				XSSFCell cell = row.getCell(0);
+				String rowvalue = cell.getStringCellValue();
+				if (rowvalue.equals("")) {
+					r = rows + 1;
+				} else {
+					eleminated_list.add(rowvalue);
+				}
+				break;
+
+			case "Hypothyroidism":
+
+				XSSFCell cell1 = row.getCell(2);
+				String rowvalue1 = cell1.getStringCellValue();
+				if (rowvalue1.equals("")) {
+					r = rows + 1;
+				} else {
+					eleminated_list.add(rowvalue1);
+				}
+				break;
+
+			case "Hypertension":
+
+				XSSFCell cell2 = row.getCell(4);
+				String rowvalue2 = cell2.getStringCellValue();
+				if (rowvalue2.equals("")) {
+					r = rows + 1;
+				} else {
+					eleminated_list.add(rowvalue2);
+				}
+				break;
+
+			case "PCOS":
+
+				XSSFCell cell3 = row.getCell(6);
+				String rowvalue3 = cell3.getStringCellValue();
+				if (rowvalue3.equals("")) {
+					r = rows + 1;
+				} else {
+					eleminated_list.add(rowvalue3);
+				}
+				break;
+
 			}
-			else
-			{
-				eleminated_list.add(rowvalue);
-			}
-				
+
 		}
+
 		workbook.close();
-	return eleminated_list;
-	
+		return eleminated_list;
+
 	}
 	
+	/******************************************************************/
 	
-	public List<String> getDiabeticToAdd() throws IOException
-	{
-		List<String>  DiaToAdd_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-				
-		for(int r=2,c=1;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
+	public List<String> getmorbidityTOADD(String morbidity) throws IOException {
+		List<String> TOadd_list = new ArrayList<String>();
+		String excelfilepath = "./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
+		FileInputStream iputstream = new FileInputStream(excelfilepath);
+
+		XSSFWorkbook workbook = new XSSFWorkbook(iputstream);
+
+		XSSFSheet sheet = workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
+		int rows = sheet.getLastRowNum();
+
+		for (int r = 2; r <= rows; r++) {
+
+			XSSFRow row = sheet.getRow(r);
+
+			switch (morbidity) {
+			case "Diabetes":
+
+				XSSFCell cell = row.getCell(1);
+				String rowvalue = cell.getStringCellValue();
+				if (rowvalue.equals("")) {
+					r = rows + 1;
+				} else {
+					TOadd_list.add(rowvalue);
+				}
+				break;
+
+			case "Hypothyroidism":
+
+				XSSFCell cell1 = row.getCell(3);
+				String rowvalue1 = cell1.getStringCellValue();
+				if (rowvalue1.equals("")) {
+					r = rows + 1;
+				} else {
+					TOadd_list.add(rowvalue1);
+				}
+				break;
+
+			case "Hypertension":
+
+				XSSFCell cell2 = row.getCell(5);
+				String rowvalue2 = cell2.getStringCellValue();
+				if (rowvalue2.equals("")) {
+					r = rows + 1;
+				} else {
+					TOadd_list.add(rowvalue2);
+				}
+				break;
+
+			case "PCOS":
+
+				XSSFCell cell3 = row.getCell(7);
+				String rowvalue3 = cell3.getStringCellValue();
+				if (rowvalue3.equals("")) {
+					r = rows + 1;
+				} else {
+					TOadd_list.add(rowvalue3);
+				}
+				break;
+
 			}
-			else
-			{
-				DiaToAdd_list.add(rowvalue);
-			}
-				
+
 		}
+
 		workbook.close();
-	return DiaToAdd_list;
-	
+		return TOadd_list;
+
 	}
-	
-	
-	
-	
-	public List<String> getThyroidElimination() throws IOException
-	{
-		List<String>  Thyroid_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-		//int cols=sheet.getRow(1).getLastCellNum();
-		for(int r=2,c=2;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				Thyroid_eleList.add(rowvalue);
-			}
-				
-		}
-		
-		workbook.close();
-	return Thyroid_eleList;
-	
-	}
-	
-	
-	
-	public List<String> getThyroidToAdd() throws IOException
-	{
-		List<String>  ThyroidToAdd_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-		for(int r=2,c=3;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				ThyroidToAdd_list.add(rowvalue);
-			}
-				
-		}	
-		
-		workbook.close();
-	return ThyroidToAdd_list;
-	
-	}
-	
-	
-	
-	public List<String> getHyperTenseElimination() throws IOException
-	{
-		List<String>  hyperTense_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-		//int cols=sheet.getRow(1).getLastCellNum();
-		
-		for(int r=2,c=4;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				hyperTense_eleList.add(rowvalue);
-			}
-				
-		}	
-		workbook.close();
-	return hyperTense_eleList;
-	
-	}
-	
-	
-	
-	public List<String> getHypertenseToAdd() throws IOException
-	{
-		List<String>  Hyper_ToAdd = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-				
-		for(int r=2,c=5;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				Hyper_ToAdd.add(rowvalue);
-			}
-		}
-		workbook.close();
-	return Hyper_ToAdd;
-	
-	}
-	
-	
-	public List<String> getPCOS_Eliminate() throws IOException
-	{
-		List<String>  PCOS_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-		//int cols=sheet.getRow(1).getLastCellNum();
-		
-		for(int r=2,c=6;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				PCOS_eleList.add(rowvalue);
-			}
-		}
-		workbook.close();
-	return PCOS_eleList;
-	
-	}
-	
-	public List<String> getPCOSToAdd() throws IOException
-	{
-		List<String> PCOS_ToAdd = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream=new FileInputStream(excelfilepath);
-		
-		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
-		
-		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
-		int rows=sheet.getLastRowNum();
-				
-		for(int r=2,c=7;r<=rows;r++)
-		{
-			XSSFRow row=sheet.getRow(r);
-			XSSFCell cell=row.getCell(c);
-			String rowvalue=cell.getStringCellValue();
-			if(rowvalue.equals(""))
-			{
-				r=rows+1;
-			}
-			else
-			{
-				PCOS_ToAdd.add(rowvalue);
-			}
-		}
-		workbook.close();
-	return PCOS_ToAdd;
-	
-	}
-	
+
 
 }
