@@ -118,7 +118,7 @@ public class ScraperUtility {
 				System.out.println(recipeID);
 
 				// Compare the eliminate List with Ingredients
-				List<String> readEliminateList = utilReader.getDiabeticElimination();
+				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
 				if(ingredients==null) {
 					ingredients="";
 				}
