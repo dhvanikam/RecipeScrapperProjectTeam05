@@ -149,7 +149,7 @@ public class TestScrapeDiabetes {
 				System.out.println(recipeID);
 
 				// Compare the eliminate List with Ingredients
-				List<String> readEliminateList = utilReader.getDiabeticElimination();
+				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
 
 				isContainEliminateItem = comnutil.hasEliminateItems(readEliminateList, ingredients);
 
