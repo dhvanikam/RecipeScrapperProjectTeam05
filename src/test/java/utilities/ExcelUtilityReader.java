@@ -24,12 +24,20 @@ public class ExcelUtilityReader {
 		int rows=sheet.getLastRowNum();
 		//int cols=sheet.getRow(1).getLastCellNum();
 		
-		for(int r=2,c=0;r<=35;r++)
+		for(int r=2,c=0;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			eleminated_list.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				eleminated_list.add(rowvalue);
+			}
+				
 		}
 		workbook.close();
 	return eleminated_list;
@@ -48,12 +56,20 @@ public class ExcelUtilityReader {
 		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
 		int rows=sheet.getLastRowNum();
 				
-		for(int r=2,c=1;r<=18;r++)
+		for(int r=2,c=1;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			DiaToAdd_list.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				DiaToAdd_list.add(rowvalue);
+			}
+				
 		}
 		workbook.close();
 	return DiaToAdd_list;
@@ -74,14 +90,22 @@ public class ExcelUtilityReader {
 		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
 		int rows=sheet.getLastRowNum();
 		//int cols=sheet.getRow(1).getLastCellNum();
-		
-		for(int r=2,c=2;r<=29;r++)
+		for(int r=2,c=2;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			Thyroid_eleList.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				Thyroid_eleList.add(rowvalue);
+			}
+				
 		}
+		
 		workbook.close();
 	return Thyroid_eleList;
 	
@@ -99,14 +123,22 @@ public class ExcelUtilityReader {
 		
 		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
 		int rows=sheet.getLastRowNum();
-				
-		for(int r=2,c=3;r<=14;r++)
+		for(int r=2,c=3;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			ThyroidToAdd_list.add(rowvalue);
-		}
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				ThyroidToAdd_list.add(rowvalue);
+			}
+				
+		}	
+		
 		workbook.close();
 	return ThyroidToAdd_list;
 	
@@ -126,13 +158,21 @@ public class ExcelUtilityReader {
 		int rows=sheet.getLastRowNum();
 		//int cols=sheet.getRow(1).getLastCellNum();
 		
-		for(int r=2,c=4;r<=13;r++)
+		for(int r=2,c=4;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			hyperTense_eleList.add(rowvalue);
-		}
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				hyperTense_eleList.add(rowvalue);
+			}
+				
+		}	
 		workbook.close();
 	return hyperTense_eleList;
 	
@@ -151,12 +191,19 @@ public class ExcelUtilityReader {
 		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
 		int rows=sheet.getLastRowNum();
 				
-		for(int r=2,c=5;r<=19;r++)
+		for(int r=2,c=5;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			Hyper_ToAdd.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				Hyper_ToAdd.add(rowvalue);
+			}
 		}
 		workbook.close();
 	return Hyper_ToAdd;
@@ -176,12 +223,19 @@ public class ExcelUtilityReader {
 		int rows=sheet.getLastRowNum();
 		//int cols=sheet.getRow(1).getLastCellNum();
 		
-		for(int r=2,c=6;r<=20;r++)
+		for(int r=2,c=6;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			PCOS_eleList.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				PCOS_eleList.add(rowvalue);
+			}
 		}
 		workbook.close();
 	return PCOS_eleList;
@@ -199,12 +253,19 @@ public class ExcelUtilityReader {
 		XSSFSheet sheet=workbook.getSheet("Diabetes-Hypothyroidism-Hyperte");
 		int rows=sheet.getLastRowNum();
 				
-		for(int r=2,c=7;r<=2;r++)
+		for(int r=2,c=7;r<=rows;r++)
 		{
 			XSSFRow row=sheet.getRow(r);
 			XSSFCell cell=row.getCell(c);
 			String rowvalue=cell.getStringCellValue();
-			PCOS_ToAdd.add(rowvalue);
+			if(rowvalue.equals(""))
+			{
+				r=rows+1;
+			}
+			else
+			{
+				PCOS_ToAdd.add(rowvalue);
+			}
 		}
 		workbook.close();
 	return PCOS_ToAdd;
