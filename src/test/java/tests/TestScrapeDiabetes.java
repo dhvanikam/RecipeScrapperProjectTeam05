@@ -84,7 +84,7 @@ public class TestScrapeDiabetes {
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 1; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
@@ -145,19 +145,22 @@ public class TestScrapeDiabetes {
 				System.out.println(recipeID);
 
 				// Compare the eliminate List with Ingredients
-//				List<String> readEliminateList = utilReader.getDiabeticElimination();
-//
-//				isContainEliminateItem = cmnutil.hasEliminateItems(readEliminateList, ingredients);
-//
-//				if (isContainEliminateItem) {
-//
-//					// continue with the loop - need to add continue statement here inside the for
-//					// loop
-//
-//				}
+				List<String> readEliminateList = utilReader.getDiabeticElimination();
 
+				isContainEliminateItem = comnutil.hasEliminateItems(readEliminateList, ingredients);
+
+				if (isContainEliminateItem) {
+
+					System.out.println("Contains eliminateditem");
+
+				}
+				else {
+					allData.add(eachData);
+				}
+				
 				driver.navigate().back();
-				allData.add(eachData);
+				
+				
 			}
 
 		}
