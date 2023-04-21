@@ -17,13 +17,16 @@ import org.testng.annotations.Test;
 import driverFactory.DriverFactory;
 import utilities.CommonUtilities;
 import utilities.ConfigReader;
+import utilities.ExcelUtilityReader;
 import utilities.ExcelUtilityWriter;
 import utilities.Loggerload;
 
 public class TestScrapeDiabetes {
 	public static WebDriver driver;
 	ExcelUtilityWriter util = new ExcelUtilityWriter();
+	ExcelUtilityReader utilReader = new ExcelUtilityReader();
 	CommonUtilities cmnutil = new CommonUtilities();
+	boolean isContainEliminateItem;
 
 	// Xpaths
 	String recipesButton = "//*[@id='nav']/li[1]/a";
@@ -34,7 +37,7 @@ public class TestScrapeDiabetes {
 	// *[@id="maincontent"]//article[1]//span/a
 
 	String recipeIDXpath = "//*[contains(text(),'Recipe#')]";
-	String recipeNameClassName = "rcc_recipename";
+	String recipeNameXPath = "//*[@id='maincontent']/div/div[2]/article[1]/div[3]/span/a";
 	String recipe_catg_path = "//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1";
 	String ingredientsId = "rcpinglist";
 	String preparationTimeXpath = "//*[@itemprop='prepTime']";
@@ -85,7 +88,7 @@ public class TestScrapeDiabetes {
 
 		// Scrape from main page
 		recipeID = driver.findElement(By.xpath(recipeIDXpath)).getText();
-		recipeName = driver.findElement(By.className(recipeNameClassName)).getText();
+		recipeName = driver.findElement(By.xpath(recipeNameXPath)).getText();
 		recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
 
 		// Click on recipe
@@ -98,12 +101,18 @@ public class TestScrapeDiabetes {
 		preparationMethod = driver.findElement(By.id(preparationMethodId)).getText();
 		nutrientValues = driver.findElement(By.id(nutrientValuesId)).getText();
 		recipeURL = driver.getCurrentUrl();
-		
-		//Compare
-		//get from xls and compare isContains()
-		
-		//if condition()
-		// Store To xls
+
+		// Compare the eliminate List with Ingredients
+		List<String> readEliminateList = utilReader.getDiabeticElimination();
+
+		isContainEliminateItem = cmnutil.hasEliminateItems(readEliminateList, ingredients);
+
+		if (isContainEliminateItem) {
+
+			// continue with the loop - need to add continue statement here inside the for loop
+			
+		}
+
 		util.setCellDataHeaders();
 		util.setCellData("recipelist", 1, 0, recipeID);
 		util.setCellData("recipelist", 1, 1, recipeName);
