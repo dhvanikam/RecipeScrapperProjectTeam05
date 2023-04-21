@@ -89,7 +89,7 @@ public class ExcelUtilityWriter {
 			}
 		}
 		FileOutputStream fileOutputStream = new FileOutputStream(
-				new File("./src/test/resources/RecipeExcelData/RecipeDataDiabetes.xlsx"));
+				new File("./src/test/resources/RecipeExcelData/RecipeData.xlsx"));
 		workbook.write(fileOutputStream);
 	}
 
