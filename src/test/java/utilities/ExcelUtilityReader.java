@@ -48,7 +48,7 @@ public class ExcelUtilityReader {
 	public List<String> getDiabeticToAdd() throws IOException
 	{
 		List<String>  DiaToAdd_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -82,7 +82,7 @@ public class ExcelUtilityReader {
 	public List<String> getThyroidElimination() throws IOException
 	{
 		List<String>  Thyroid_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -116,7 +116,7 @@ public class ExcelUtilityReader {
 	public List<String> getThyroidToAdd() throws IOException
 	{
 		List<String>  ThyroidToAdd_list = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -149,7 +149,7 @@ public class ExcelUtilityReader {
 	public List<String> getHyperTenseElimination() throws IOException
 	{
 		List<String>  hyperTense_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -183,7 +183,7 @@ public class ExcelUtilityReader {
 	public List<String> getHypertenseToAdd() throws IOException
 	{
 		List<String>  Hyper_ToAdd = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -214,7 +214,7 @@ public class ExcelUtilityReader {
 	public List<String> getPCOS_Eliminate() throws IOException
 	{
 		List<String>  PCOS_eleList = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
@@ -245,7 +245,7 @@ public class ExcelUtilityReader {
 	public List<String> getPCOSToAdd() throws IOException
 	{
 		List<String> PCOS_ToAdd = new ArrayList<String>(); 
-		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon (1).xlsx";
+		String excelfilepath="./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
 		FileInputStream iputstream=new FileInputStream(excelfilepath);
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(iputstream);
