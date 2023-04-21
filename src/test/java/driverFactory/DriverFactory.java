@@ -24,7 +24,7 @@ public class DriverFactory {
 
 		} else if (browser.equalsIgnoreCase("chrome")) {
 			Loggerload.info("Testing on chrome");
-			WebDriverManager.chromedriver().browserVersion("108.0.0").setup();
+			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 
 		} else if (browser.equalsIgnoreCase("safari")) {
@@ -39,7 +39,7 @@ public class DriverFactory {
 
 		}
 		// Set Page load timeout
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 
 		driver.manage().window().maximize();
 
