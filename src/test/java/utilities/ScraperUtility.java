@@ -47,12 +47,17 @@ public class ScraperUtility {
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
 		
+		String morbiditiBreakfastLink= "//*[@id=\"cardholder\"]//p[83]//a[contains(text(),\"Diabetic Breakfast\")]";
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
-
+		Thread.sleep(2000);
+		
+		//driver.findElement(By.xpath(morbiditiBreakfastLink)).click();
+		
+		
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
@@ -82,13 +87,16 @@ public class ScraperUtility {
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
 							.getText();
 					eachData.put("RecipeName", recipeName);
-
-					recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
-					eachData.put("Recipe Category", recipe_category);
+	
 
 					// Click on recipe
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
-
+					
+					
+					//recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
+					String recipecategory=comnutil.findRecipeCategory(driver);
+					eachData.put("Recipe Category", recipecategory);
+					
 					// Scrape from recipe page
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
 					eachData.put("Ingredients", ingredients);
@@ -97,11 +105,13 @@ public class ScraperUtility {
 					comnutil.findByXpath(driver, preparationTimeXpath);
 					preparationTime = prepTime.getText();
 					eachData.put("PreparationTime", preparationTime);
-
+					
 					comnutil.findByXpath(driver, cookingTimeXpath);
 					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
 					eachData.put("CookingTime", cookingTime);
-
+					
+					eachData.put("Food category", foodcategory);
+					
 					preparationMethod = driver.findElement(By.id(preparationMethodId)).getText();
 					eachData.put("PreparationMethod", preparationMethod);
 

@@ -6,7 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -20,8 +22,14 @@ public class DriverFactory {
 
 		if (browser.equalsIgnoreCase("firefox")) {
 			Loggerload.info("Testing on firefox");
+			//FirefoxBinary firefoxBinary = new FirefoxBinary();
+	       // firefoxBinary.addCommandLineOptions("--headless");
+	       // FirefoxOptions options = new FirefoxOptions();
+	  
+	       // options.setBinary(firefoxBinary);
 			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
+			 //options.setBinary(firefoxBinary);
 
 		} else if (browser.equalsIgnoreCase("chrome")) {
 			Loggerload.info("Testing on chrome");
