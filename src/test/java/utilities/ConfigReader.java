@@ -43,9 +43,15 @@ public class ConfigReader {
 		else
 			throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
-
-	public static String getMorbiditi() {
-		String url = properties.getProperty("morbiditi");
+	public static String getRecipePath() {
+		String url = properties.getProperty("recipedatapath");
+		if (url != null)
+			return url;
+		else
+			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+	}
+	public static String getAllergyPath() {
+		String url = properties.getProperty("allergyrecipedatapath");
 		if (url != null)
 			return url;
 		else
