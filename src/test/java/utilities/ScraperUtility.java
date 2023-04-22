@@ -12,9 +12,11 @@ import org.openqa.selenium.WebElement;
 public class ScraperUtility {
 	public static WebDriver driver;
 	ExcelUtilityWriter util = new ExcelUtilityWriter();
+	ToAddItemsExcelWriter addItemsExcelWriter = new ToAddItemsExcelWriter();
 	CommonUtilities comnutil = new CommonUtilities();
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
-	boolean isContainEliminateItem;
+	boolean isContainEliminateItems;
+	boolean isContainToAddItems;
 
 	// Locators
 	// String morbiditi=ConfigReader.getMorbiditi();
@@ -49,6 +51,9 @@ public class ScraperUtility {
 		
 		String morbiditiBreakfastLink= "//*[@id=\"cardholder\"]//p[83]//a[contains(text(),\"Diabetic Breakfast\")]";
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
+		
+		List<LinkedHashMap<String, String>> toAddItemsData = new ArrayList<LinkedHashMap<String, String>>();
+
 
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
@@ -61,7 +66,7 @@ public class ScraperUtility {
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 2; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
@@ -129,24 +134,38 @@ public class ScraperUtility {
 
 				// Compare the eliminate List with Ingredients
 				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
+				List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
+				
+				
 				if(ingredients==null) {
 					ingredients="";
 				}
-				isContainEliminateItem = comnutil.hasEliminateItems(readEliminateList, ingredients);
+				isContainEliminateItems = comnutil.hasEliminateItems(readEliminateList, ingredients);
+				
+				isContainToAddItems = comnutil.isToAddItemsPresent(readToAddItemList, ingredients);
 
-				if (isContainEliminateItem) {
 
-					System.out.println("Contains eliminateditem");
+				if (!isContainEliminateItems) {
+					System.out.println("This receipe does not contain eliminateditem(s): "+recipeName);
+					allData.add(eachData);
+					
+					if (isContainToAddItems) {
+						System.out.println("This receipe contains to Add Item(s): "+recipeName);
+						toAddItemsData.add(eachData);
+					}
 
 				} else {
-					allData.add(eachData);
+					
+					System.out.println("Contains eliminateditem in recipeName: "+recipeName);
 				}
 
+				
 				driver.navigate().back();
 
 			}
 
 		}
 		util.saveDataToExcel(allData, morbiditi);
+		addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi);
 	}
 }
