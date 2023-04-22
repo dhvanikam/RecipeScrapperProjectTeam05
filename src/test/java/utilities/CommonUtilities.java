@@ -33,6 +33,14 @@ public class CommonUtilities {
 		return false;
 	}
 
+	public boolean hasAllergyItems(String allergyItem, String recipeIngredients) {
+
+		if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
+				return true;
+			}
+		else
+		return false;
+	}
 	public void waitForElement(WebElement element) {
 		new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(element));
 

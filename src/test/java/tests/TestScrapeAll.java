@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
+import utilities.Allergy_Recipes;
 import utilities.CommonUtilities;
 import utilities.ConfigReader;
 import utilities.ExcelUtilityReader;
@@ -44,7 +45,7 @@ public class TestScrapeAll {
 		System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
 	}
 
-	@Test
+/*	@Test
 	public void test01loop() throws IOException, InterruptedException {
 		scrapeutil.test01loop(driver, "PCOS");
 
@@ -61,6 +62,17 @@ public class TestScrapeAll {
 	
 		scrapeutil.test01loop(driver, "Diabetic");
 	
+	}*/
+	@Test
+	public void test03loop() throws IOException, InterruptedException {
+	
+		Allergy_Recipes a=new Allergy_Recipes();
+		String[] list= {"milk","soy","egg","sesame","peanuts","walnut","almond","hazelnut",
+							"pecan","cashew","pistachio","shell fish","seafood"};
+		
+		for(String Item:list)
+		a.Allergy_Data(driver,Item);
+		
 	}
 
 	@AfterClass
