@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.time.Duration;
@@ -73,5 +74,36 @@ public class CommonUtilities {
 		} else {
 			System.out.println("My Element was not found on the page");
 		}
+	}
+
+	public String findRecipeCategory(WebDriver driver) {
+
+		String recipeCat = "";
+		ArrayList<String> tagList = new ArrayList<String>();
+		// String[] catList = {"Breakfast","Snack","Snacks","Lunch","Dinner"};
+		List<WebElement> listTagElem = driver.findElements(By.xpath("//*[@id=\"recipe_tags\"]/a"));
+		for (WebElement eachTag : listTagElem) {
+
+			tagList.add(eachTag.getText());
+		}
+
+		for (String eachCat : tagList) {
+
+			if (eachCat.toUpperCase().contains("Breakfast".toUpperCase())) {
+				recipeCat = "Breakfast";
+			} else if (eachCat.toUpperCase().contains("Snack".toUpperCase())) {
+				recipeCat = "Snack";
+			} else if (eachCat.toUpperCase().contains("Snacks".toUpperCase())) {
+				recipeCat = "Snacks";
+			} else if (eachCat.toUpperCase().contains("Lunch".toUpperCase())) {
+				recipeCat = "Lunch";
+			} else if (eachCat.toUpperCase().contains("Dinner".toUpperCase())) {
+				recipeCat = "Dinner";
+			} else {
+				recipeCat = "No Category Available";
+			}
+		}
+
+		return recipeCat;
 	}
 }
