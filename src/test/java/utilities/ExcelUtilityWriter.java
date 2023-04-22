@@ -28,21 +28,23 @@ public class ExcelUtilityWriter {
 	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName, String path) throws IOException {
 		//String path = "./src/test/resources/RecipeExcelData/RecipeData.xlsx";
 		
-		Sheet sheet = null;
-		Workbook workbook = null;
-		if (new File(path).isFile()) {
-			FileInputStream inputStream = new FileInputStream(new File(path));
-			workbook = WorkbookFactory.create(inputStream);
-			sheet = workbook.getSheet(sheetName);
-		}
-		
-		if (workbook == null) {
-			workbook = new XSSFWorkbook();
-		}
-		
-		if (sheet == null) {
-			sheet = workbook.createSheet(sheetName);
-		}
+//		Sheet sheet = null;
+//		Workbook workbook = null;
+//		if (new File(path).isFile()) {
+//			FileInputStream inputStream = new FileInputStream(new File(path));
+//			workbook = WorkbookFactory.create(inputStream);
+//			sheet = workbook.getSheet(sheetName);
+//		}
+//		
+//		if (workbook == null) {
+//			workbook = new XSSFWorkbook();
+//		}
+//		
+//		if (sheet == null) {
+//			sheet = workbook.createSheet(sheetName);
+//		}
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet(sheetName);
 
 		int indexRow = 0;
 		int headerCol = 0;
