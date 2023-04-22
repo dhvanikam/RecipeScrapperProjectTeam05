@@ -1,4 +1,4 @@
-package utilities;
+ package utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,22 +42,23 @@ public class ScraperUtility {
 	String targettedMorbid = "Diabetes";
 	String recipeURL;
 
+
 	public void test01loop(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
+		String recipedatapath = ConfigReader.getRecipePath();
 		// morbiditi = ConfigReader.getMorbiditi();
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
-		
-		String morbiditiBreakfastLink= "//*[@id=\"cardholder\"]//p[83]//a[contains(text(),\"Diabetic Breakfast\")]";
+
+		String morbiditiBreakfastLink = "//*[@id=\"cardholder\"]//p[83]//a[contains(text(),\"Diabetic Breakfast\")]";
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
 		Thread.sleep(2000);
-		
-		//driver.findElement(By.xpath(morbiditiBreakfastLink)).click();
-		
-		
+
+		// driver.findElement(By.xpath(morbiditiBreakfastLink)).click();
+
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
@@ -82,21 +83,20 @@ public class ScraperUtility {
 					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span"))
 							.getText();
 					// comnutil.waitForElement(recipeID);
-					eachData.put("RecipeID", recipeID);
+					String[] recipeid = recipeID.split("\\R");
+					eachData.put("RecipeID", recipeid[0]);
 
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
 							.getText();
 					eachData.put("RecipeName", recipeName);
-	
 
 					// Click on recipe
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
-					
-					
-					//recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
-					String recipecategory=comnutil.findRecipeCategory(driver);
+
+					// recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
+					String recipecategory = comnutil.findRecipeCategory(driver);
 					eachData.put("Recipe Category", recipecategory);
-					
+
 					// Scrape from recipe page
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
 					eachData.put("Ingredients", ingredients);
@@ -105,13 +105,13 @@ public class ScraperUtility {
 					comnutil.findByXpath(driver, preparationTimeXpath);
 					preparationTime = prepTime.getText();
 					eachData.put("PreparationTime", preparationTime);
-					
+
 					comnutil.findByXpath(driver, cookingTimeXpath);
 					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
 					eachData.put("CookingTime", cookingTime);
-					
+
 					eachData.put("Food category", foodcategory);
-					
+
 					preparationMethod = driver.findElement(By.id(preparationMethodId)).getText();
 					eachData.put("PreparationMethod", preparationMethod);
 
@@ -129,8 +129,8 @@ public class ScraperUtility {
 
 				// Compare the eliminate List with Ingredients
 				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
-				if(ingredients==null) {
-					ingredients="";
+				if (ingredients == null) {
+					ingredients = "";
 				}
 				isContainEliminateItem = comnutil.hasEliminateItems(readEliminateList, ingredients);
 
@@ -142,11 +142,12 @@ public class ScraperUtility {
 					allData.add(eachData);
 				}
 
+				
 				driver.navigate().back();
 
 			}
 
 		}
-		util.saveDataToExcel(allData, morbiditi);
+		util.saveDataToExcel(allData, morbiditi, recipedatapath);
 	}
 }

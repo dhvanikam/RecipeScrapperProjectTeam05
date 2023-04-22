@@ -11,7 +11,8 @@ import org.openqa.selenium.WebElement;
 
 public class Allergy_Recipes {
 	public static WebDriver driver;
-	ExcelWriter_allergy util = new ExcelWriter_allergy();
+	//ExcelWriter_allergy util = new ExcelWriter_allergy();
+	ExcelUtilityWriter util = new ExcelUtilityWriter();
 	CommonUtilities comnutil = new CommonUtilities();
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
 	boolean isContainEliminateItem;
@@ -44,7 +45,7 @@ public class Allergy_Recipes {
 	public void Allergy_Data(WebDriver driver,String Allergy_item) throws IOException, InterruptedException {
 		
 		
-		
+		String allergyrecipedatapath=ConfigReader.getAllergyPath();
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
@@ -71,6 +72,8 @@ public class Allergy_Recipes {
 				LinkedHashMap<String, String> eachData = new LinkedHashMap<>();
 
 				try {
+					
+					
 					// Scrape from main page
 					
 
@@ -104,7 +107,7 @@ public class Allergy_Recipes {
 					eachData.put("RecipeURL", recipeURL);
 
 				} catch (Exception e) {
-					e.printStackTrace();
+					eachData.put("","Not available");
 				}
 
 				System.out.println(recipeName);
@@ -131,7 +134,7 @@ public class Allergy_Recipes {
 				}
 
 		}
-		util.saveDataToExcel(allData, Allergy_item);
+		util.saveDataToExcel(allData, Allergy_item,allergyrecipedatapath);
 	}
 	}
 
