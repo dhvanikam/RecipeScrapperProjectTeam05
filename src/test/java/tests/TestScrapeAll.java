@@ -25,7 +25,7 @@ import utilities.ScraperUtility;
 public class TestScrapeAll {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
-	
+
 	@BeforeClass
 	public void testSetup() throws Throwable {
 		// Get browser Type from Config file
@@ -48,19 +48,27 @@ public class TestScrapeAll {
 	public void test01loop() throws IOException, InterruptedException {
 		scrapeutil.test01loop(driver, "PCOS");
 
-	
 	}
+
 	@Test
 	public void test02loop() throws IOException, InterruptedException {
 
 		scrapeutil.test01loop(driver, "Hyperthyroidism");
-	
+
 	}
+
 	@Test
 	public void test03loop() throws IOException, InterruptedException {
-	
+
 		scrapeutil.test01loop(driver, "Diabetic");
-	
+
+	}
+
+	@Test
+	public void test04loop() throws IOException, InterruptedException {
+
+		scrapeutil.test01loop(driver, "High Blood Pressure");
+
 	}
 
 	@AfterClass
