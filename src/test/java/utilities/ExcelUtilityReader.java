@@ -27,7 +27,7 @@ public class ExcelUtilityReader {
 			XSSFRow row = sheet.getRow(r);
 
 			switch (morbidity) {
-			case "Diabetes":
+			case "Diabetic":
 
 				XSSFCell cell = row.getCell(0);
 				String rowvalue = cell.getStringCellValue();
@@ -49,7 +49,7 @@ public class ExcelUtilityReader {
 				}
 				break;
 
-			case "Hypertension":
+			case "High Blood Pressure":
 
 				XSSFCell cell2 = row.getCell(4);
 				String rowvalue2 = cell2.getStringCellValue();
@@ -97,7 +97,7 @@ public class ExcelUtilityReader {
 			XSSFRow row = sheet.getRow(r);
 
 			switch (morbidity) {
-			case "Diabetes":
+			case "Diabetic":
 
 				XSSFCell cell = row.getCell(1);
 				String rowvalue = cell.getStringCellValue();
@@ -119,7 +119,7 @@ public class ExcelUtilityReader {
 				}
 				break;
 
-			case "Hypertension":
+			case "High Blood Pressure":
 
 				XSSFCell cell2 = row.getCell(5);
 				String rowvalue2 = cell2.getStringCellValue();
