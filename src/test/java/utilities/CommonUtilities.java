@@ -34,6 +34,19 @@ public class CommonUtilities {
 		return false;
 	}
 
+	
+	public boolean isToAddItemsPresent(List<String> toAddItems, String recipeIngredients) {
+
+		for (String bestFood : toAddItems) {
+
+			if (recipeIngredients.toUpperCase().contains(bestFood.toUpperCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public boolean hasAllergyItems(String allergyItem, String recipeIngredients) {
 
 		if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
