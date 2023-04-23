@@ -1,5 +1,8 @@
 package tests;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
@@ -8,19 +11,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
-
-//import utilities.Compare;
 import utilities.ConfigReader;
 import utilities.Loggerload;
-//import utilities.Scrape;
+
 import utilities.ScraperUtility;
 
 public class TestScrapeAll {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
-//	Scrape scrape = new Scrape();
-//	Compare compare = new Compare();
-	
+
 	@BeforeClass
 	public void testSetup() throws Throwable {
 		// Get browser Type from Config file
@@ -39,38 +38,33 @@ public class TestScrapeAll {
 		System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
 	}
 
-	@Test
+	@Test(priority = 1)
 	public void test01loop() throws IOException, InterruptedException {
 		scrapeutil.test01loop(driver, "PCOS");
-		
+
 	}
 
-	@Test
+	@Test(priority = 2)
 	public void test02loop() throws IOException, InterruptedException {
 
-		scrapeutil.test01loop(driver, "Hyperthyroidism");
+		scrapeutil.test01loop(driver, "Hypothyroidism");
 
 	}
 
-	@Test
+	@Test(priority = 3)
 	public void test03loop() throws IOException, InterruptedException {
 
 		scrapeutil.test01loop(driver, "Diabetic");
 
-
 	}
 
-	@Test
+	@Test(priority = 4)
 	public void test04loop() throws IOException, InterruptedException {
 
 		scrapeutil.test01loop(driver, "High Blood Pressure");
-		
 
 	}
 
-
-	
-	
 	@AfterClass
 	public void afterClass() {
 		driver.quit();

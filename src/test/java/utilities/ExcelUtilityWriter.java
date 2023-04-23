@@ -20,8 +20,25 @@ public class ExcelUtilityWriter {
 
 	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName, String path)
 			throws IOException {
-
-		Workbook workbook = new XSSFWorkbook();
+		if(allData.size() == 0) {
+			System.out.println("No recipe data to write in " + sheetName);
+			return;
+		}
+		
+		Workbook workbook = null;
+		if (new File(path).isFile()) {
+			FileInputStream inputStream = new FileInputStream(new File(path));
+			workbook = WorkbookFactory.create(inputStream);
+			
+			// Delete sheet if exists
+			int index = workbook.getSheetIndex(sheetName);
+			if (index >= 0) {
+				workbook.removeSheetAt(index);	
+			}
+		} else {
+			workbook = new XSSFWorkbook();
+		}
+		
 		Sheet sheet = workbook.createSheet(sheetName);
 
 		int indexRow = 0;
