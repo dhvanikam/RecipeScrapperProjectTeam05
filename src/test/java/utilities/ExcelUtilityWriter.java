@@ -17,37 +17,16 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtilityWriter {
-	String path = "./src/test/resources/RecipeExcelData/test.xlsx";
-	XSSFWorkbook workbook;
-	FileOutputStream fo;
-	FileInputStream fi;
-	Sheet sheet;
-	Row row;
-	Cell cell;
 
-	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName, String path) throws IOException {
-		//String path = "./src/test/resources/RecipeExcelData/RecipeData.xlsx";
-		
-//		Sheet sheet = null;
-//		Workbook workbook = null;
-//		if (new File(path).isFile()) {
-//			FileInputStream inputStream = new FileInputStream(new File(path));
-//			workbook = WorkbookFactory.create(inputStream);
-//			sheet = workbook.getSheet(sheetName);
-//		}
-//		
-//		if (workbook == null) {
-//			workbook = new XSSFWorkbook();
-//		}
-//		
-//		if (sheet == null) {
-//			sheet = workbook.createSheet(sheetName);
-//		}
+	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName, String path)
+			throws IOException {
+
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet(sheetName);
 
 		int indexRow = 0;
 		int headerCol = 0;
+
 		// Write header
 		Row headerRow = sheet.createRow(indexRow++);
 		for (Map.Entry<String, String> eachMapItem : allData.get(0).entrySet()) {
