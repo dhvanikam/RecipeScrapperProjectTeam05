@@ -61,6 +61,10 @@ public class ScraperUtility {
 
 		List<LinkedHashMap<String, String>> allergyData = new ArrayList<LinkedHashMap<String, String>>();
 
+		// Compare the eliminate List with Ingredients
+		List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
+		List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
+		
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
@@ -79,7 +83,9 @@ public class ScraperUtility {
 					e.printStackTrace();
 				}
 			}
+			
 			List<WebElement> list = driver.findElements(By.xpath(listRecipes));
+
 			for (int j = 1; j < list.size(); j++) {
 
 				LinkedHashMap<String, String> eachData = new LinkedHashMap<>();
@@ -139,9 +145,9 @@ public class ScraperUtility {
 
 				System.out.println(recipeID);
 
-				// Compare the eliminate List with Ingredients
-				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
-				List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
+//				// Compare the eliminate List with Ingredients
+//				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
+//				List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
 
 				if (ingredients == null) {
 					ingredients = "";
@@ -169,26 +175,28 @@ public class ScraperUtility {
 				}
 
 				// scrapping allergy item milk
-				String[] Allery_item = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut",
-						"pecan", "cashew", "pistachio", "shell fish", "seafood" };
-				ArrayList<String> filtered_items = new ArrayList<String>();
-				for (String item : Allery_item) {
-					isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, item, ingredients);
+//				String[] Allery_item = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut",
+//						"pecan", "cashew", "pistachio", "shell fish", "seafood" };
+//				String[] Allery_item = { "milk" };
+//				ArrayList<String> filtered_items = new ArrayList<String>();
+//				for (String item : Allery_item) {
+//					isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, item, ingredients);
 
-					if (isContainAllergyItem) {
-						System.out.println("Contains allergy item  " + item);
+//					if (isContainAllergyItem) {
+//						System.out.println("Contains allergy item  " + item);
 						//Allergy_eachData.put("Contains "+item +" ?", "Yes");
-					} else {
+//					} else {
 //						Allergy_eachData.put("Donot have Allergy Item"+item, item);
 //						allergyData.add(Allergy_eachData);
 //						filtered_items.add(item);
-						System.out.println("Does not Contains allergy item" + item);
-						Allergy_eachData.put("Contains "+item+" ?" , "No");
-					}
-				}
-				
-				allergyData.add(Allergy_eachData);	
+//						System.out.println("Does not Contains allergy item" + item);
+//						Allergy_eachData.put("Contains "+item+" ?" , "No");
+//						allergyData.add(Allergy_eachData);
+//					}
+//				}
 
+//				allergyData.add(Allergy_eachData);
+				
 //				if (filtered_items.size() != 0) {
 //					Allergy_eachData.put("Donot have Allergy Item", filtered_items.toString());
 //					allergyData.add(Allergy_eachData);	
@@ -196,14 +204,27 @@ public class ScraperUtility {
 
 				driver.navigate().back();
 
-			}
+			} // recipe loop
 
+		}
+		
+		String[] Allery_item = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut",
+		"pecan", "cashew", "pistachio", "shell fish", "seafood" };
+		for (String allergy : Allery_item) {
+			ArrayList<LinkedHashMap<String, String>> filtered_items = new ArrayList<>();
+			for (LinkedHashMap<String, String> recipe : allData) {
+				isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, allergy, recipe.get("Ingredients"));
+				if (!isContainAllergyItem) {
+					filtered_items.add(recipe);
+				}
+			}
+			util.saveDataToExcel(filtered_items, allergy, allergydatapath.replace("AllergyData","AllergyData_"+morbiditi));
 		}
 
 		util.saveDataToExcel(allData, morbiditi, recipedatapath);
 		util.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
 		// addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi,
 		// toAddItemRecipePath);
-		util.saveDataToExcel(allergyData, morbiditi, allergydatapath);
+//		util.saveDataToExcel(allergyData, morbiditi, allergydatapath);
 	}
 }
