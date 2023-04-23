@@ -68,7 +68,7 @@ public class ScraperUtility {
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
-		for (int i = 1; i <= 2; i++) {
+		for (int i = 1; i <= 1; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
