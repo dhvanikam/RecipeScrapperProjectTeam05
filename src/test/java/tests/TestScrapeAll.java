@@ -9,17 +9,17 @@ import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
 import utilities.Allergy_Recipes;
-import utilities.Compare;
+//import utilities.Compare;
 import utilities.ConfigReader;
 import utilities.Loggerload;
-import utilities.Scrape;
+//import utilities.Scrape;
 import utilities.ScraperUtility;
 
 public class TestScrapeAll {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
-	Scrape scrape = new Scrape();
-	Compare compare = new Compare();
+//	Scrape scrape = new Scrape();
+//	Compare compare = new Compare();
 	
 	@BeforeClass
 	public void testSetup() throws Throwable {
