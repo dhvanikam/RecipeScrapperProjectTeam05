@@ -17,6 +17,7 @@ public class ScraperUtility {
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
 	boolean isContainEliminateItems;
 	boolean isContainToAddItems;
+	boolean isContainAllergyItem;
 
 	// Locators
 	// String morbiditi=ConfigReader.getMorbiditi();
@@ -48,6 +49,8 @@ public class ScraperUtility {
 	public void test01loop(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
 		String recipedatapath = ConfigReader.getRecipePath();
 		String toAddItemRecipePath = ConfigReader.getToAddItemPath();
+		String allergydatapath=ConfigReader.getAllergyPath();
+		
 		// morbiditi = ConfigReader.getMorbiditi();
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
@@ -56,7 +59,8 @@ public class ScraperUtility {
 		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
 		
 		List<LinkedHashMap<String, String>> toAddItemsData = new ArrayList<LinkedHashMap<String, String>>();
-
+		
+		List<LinkedHashMap<String, String>> allergyData = new ArrayList<LinkedHashMap<String, String>>();
 
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
@@ -83,6 +87,7 @@ public class ScraperUtility {
 			for (int j = 1; j < list.size(); j++) {
 
 				LinkedHashMap<String, String> eachData = new LinkedHashMap<>();
+				LinkedHashMap<String, String> Allergy_eachData = new LinkedHashMap<>();
 
 				try {
 					// Scrape from main page
@@ -91,10 +96,12 @@ public class ScraperUtility {
 					// comnutil.waitForElement(recipeID);
 					String[] recipeid = recipeID.split("\\R");
 					eachData.put("RecipeID", recipeid[0]);
+					Allergy_eachData.put("RecipeID", recipeid[0]);
 
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
 							.getText();
 					eachData.put("RecipeName", recipeName);
+					Allergy_eachData.put("RecipeName", recipeName);
 
 					// Click on recipe
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
@@ -102,15 +109,18 @@ public class ScraperUtility {
 					// recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
 					String recipecategory = comnutil.findRecipeCategory(driver);
 					eachData.put("Recipe Category", recipecategory);
+					Allergy_eachData.put("Recipe Category", recipecategory);
 
 					// Scrape from recipe page
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
 					eachData.put("Ingredients", ingredients);
+					Allergy_eachData.put("Ingredients", ingredients);
 
 					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
 					comnutil.findByXpath(driver, preparationTimeXpath);
 					preparationTime = prepTime.getText();
 					eachData.put("PreparationTime", preparationTime);
+					Allergy_eachData.put("PreparationTime", preparationTime);
 
 					comnutil.findByXpath(driver, cookingTimeXpath);
 					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
@@ -126,6 +136,7 @@ public class ScraperUtility {
 
 					recipeURL = driver.getCurrentUrl();
 					eachData.put("RecipeURL", recipeURL);
+					Allergy_eachData.put("RecipeURL", recipeURL);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -145,7 +156,7 @@ public class ScraperUtility {
 				
 				isContainToAddItems = comnutil.isToAddItemsPresent(readToAddItemList, ingredients);
 
-
+                 // compare the eliminate list and ToADD list
 				if (!isContainEliminateItems) {
 					System.out.println("This receipe does not contain eliminateditem(s): "+recipeName);
 					allData.add(eachData);
@@ -161,6 +172,23 @@ public class ScraperUtility {
 				}
 
 				
+				//scrapping allergy item milk
+				String Allery_item="milk";
+				
+				isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList,Allery_item, ingredients);
+
+				if (isContainAllergyItem) {
+
+					System.out.println("Contains allergy item  "+Allery_item);
+
+				} else {
+					Allergy_eachData.put("Donot have Allergy Item", Allery_item);
+					allergyData.add(Allergy_eachData);
+					
+				}
+						
+				
+				
 				driver.navigate().back();
 
 			}
@@ -169,6 +197,6 @@ public class ScraperUtility {
 
 		util.saveDataToExcel(allData, morbiditi, recipedatapath);
 		addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi,toAddItemRecipePath);
-
+		util.saveDataToExcel(allergyData, morbiditi, allergydatapath);
 	}
 }
