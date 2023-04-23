@@ -47,14 +47,21 @@ public class CommonUtilities {
 	}
 	
 	
-	public boolean hasAllergyItems(String allergyItem, String recipeIngredients) {
-
-		if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
+	public boolean hasAllergyItems(List<String> eleminateItems, String allergyItem, String recipeIngredients) {
+		
+		for (String avoidItem : eleminateItems) 
+		{
+			if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) 
+			{
 				return true;
 			}
-		else
+			if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
+				return true;
+			}
+		}
 		return false;
 	}
+	
 	public void waitForElement(WebElement element) {
 		new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(element));
 

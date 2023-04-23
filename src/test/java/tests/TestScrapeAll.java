@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
-import utilities.Allergy_Recipes;
+
 //import utilities.Compare;
 import utilities.ConfigReader;
 import utilities.Loggerload;
@@ -48,14 +48,14 @@ public class TestScrapeAll {
 	@Test
 	public void test02loop() throws IOException, InterruptedException {
 
-		//scrapeutil.test01loop(driver, "Hyperthyroidism");
+		scrapeutil.test01loop(driver, "Hyperthyroidism");
 
 	}
 
 	@Test
 	public void test03loop() throws IOException, InterruptedException {
 
-		//scrapeutil.test01loop(driver, "Diabetic");
+		scrapeutil.test01loop(driver, "Diabetic");
 
 
 	}
@@ -63,23 +63,14 @@ public class TestScrapeAll {
 	@Test
 	public void test04loop() throws IOException, InterruptedException {
 
-		//scrapeutil.test01loop(driver, "High Blood Pressure");
+		scrapeutil.test01loop(driver, "High Blood Pressure");
 		
 
 	}
 
 
-	@Test
-	public void test05loop() throws IOException, InterruptedException {
 	
-		Allergy_Recipes a=new Allergy_Recipes();
-		String[] list= {"milk","soy","egg","sesame","peanuts","walnut","almond","hazelnut",
-							"pecan","cashew","pistachio","shell fish","seafood"};
-		
-		for(String Item:list)
-		a.Allergy_Data(driver,Item);
-		
-    }
+	
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
