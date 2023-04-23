@@ -57,5 +57,12 @@ public class ConfigReader {
 		else
 			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
 	}
+	public static String getToAddItemPath() {
+		String url = properties.getProperty("toadditemrecipedatapath");
+		if (url != null)
+			return url;
+		else
+			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+	}
 
 }

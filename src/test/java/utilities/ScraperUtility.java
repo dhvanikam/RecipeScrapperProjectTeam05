@@ -47,6 +47,7 @@ public class ScraperUtility {
 
 	public void test01loop(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
 		String recipedatapath = ConfigReader.getRecipePath();
+		String toAddItemRecipePath = ConfigReader.getToAddItemPath();
 		// morbiditi = ConfigReader.getMorbiditi();
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
@@ -67,7 +68,7 @@ public class ScraperUtility {
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 2; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
@@ -167,7 +168,7 @@ public class ScraperUtility {
 		}
 
 		util.saveDataToExcel(allData, morbiditi, recipedatapath);
-		addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi);
+		addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi,toAddItemRecipePath);
 
 	}
 }

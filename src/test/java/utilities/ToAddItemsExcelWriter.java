@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ToAddItemsExcelWriter {
 	
-	String path = "./src/test/resources/RecipeExcelData/ToAddItemsRecipies.xlsx";
 	XSSFWorkbook workbook;
 	FileOutputStream fo;
 	FileInputStream fi;
@@ -25,65 +24,14 @@ public class ToAddItemsExcelWriter {
 	Row row;
 	Cell cell;
 
-	public void setCellData(String sheetName, int rownum, int column, String data) throws IOException {
-		File file = new File(path);
-		if (!file.exists()) {
-			workbook = new XSSFWorkbook();
-			fo = new FileOutputStream(path);
-			workbook.write(fo);
-		}
-
-		fi = new FileInputStream(path);
-		workbook = new XSSFWorkbook(fi);
-
-		if (workbook.getSheetIndex(sheetName) == -1)
-			workbook.createSheet(sheetName);
-		sheet = workbook.getSheet(sheetName);
-
-		if (sheet.getRow(rownum) == null)
-			sheet.createRow(rownum);
-		row = sheet.getRow(rownum);
-
-		cell = row.createCell(column);
-		cell.setCellValue(data);
-		fo = new FileOutputStream(path);
-		workbook.write(fo);
-		workbook.close();
-		fi.close();
-		fo.close();
-	}
-
-	public void setCellDataHeaders() throws IOException {
-		this.setCellData("recipelist", 0, 0, "Recipe ID");
-		this.setCellData("recipelist", 0, 1, "Recipe Name");
-		this.setCellData("recipelist", 0, 2, "Recipe Category");
-		this.setCellData("recipelist", 0, 3, "Ingredients");
-		this.setCellData("recipelist", 0, 4, "Preparation Time");
-		this.setCellData("recipelist", 0, 5, "Cooking Time");
-		this.setCellData("recipelist", 0, 6, "Food Category");
-		this.setCellData("recipelist", 0, 7, "Preparation Method");
-		this.setCellData("recipelist", 0, 8, "Nutrient values");
-		this.setCellData("recipelist", 0, 9, "Targetted morbid conditions");
-		this.setCellData("recipelist", 0, 10, "Recipe URL");
-
-	}
-
-	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName) throws IOException {
-		Sheet sheet = null;
-		Workbook workbook = null;
-		if (new File(path).isFile()) {
-			FileInputStream inputStream = new FileInputStream(new File(path));
-			workbook = WorkbookFactory.create(inputStream);
-			sheet = workbook.getSheet(sheetName);
+	public void saveDataToExcel(List<LinkedHashMap<String, String>> allData, String sheetName, String path) throws IOException {
+		if(allData.size() == 0) {
+			System.out.println("No recipe data to write in toAddItem sheet");
+			return;
 		}
 		
-		if (workbook == null) {
-			workbook = new XSSFWorkbook();
-		}
-		
-		if (sheet == null) {
-			sheet = workbook.createSheet(sheetName);
-		}
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet(sheetName);
 
 		int indexRow = 0;
 		int headerCol = 0;
