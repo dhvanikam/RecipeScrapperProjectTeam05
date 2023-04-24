@@ -13,7 +13,6 @@ import org.openqa.selenium.WebElement;
 public class ScraperUtility {
 	public static WebDriver driver;
 	ExcelUtilityWriter utilWriter = new ExcelUtilityWriter();
-	ToAddItemsExcelWriter addItemsExcelWriter = new ToAddItemsExcelWriter();
 	CommonUtilities commonUtil = new CommonUtilities();
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
 
