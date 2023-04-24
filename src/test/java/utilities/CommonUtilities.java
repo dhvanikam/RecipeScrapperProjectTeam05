@@ -1,6 +1,5 @@
 package utilities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,54 +13,91 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CommonUtilities {
-	// public static WebDriver driver;
 
 	public static WebDriver driver;
 
 	public void scrollPage(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0,1000)");
+		js.executeScript("window.scrollBy(0,1500)");
 	}
 
 	public boolean hasEliminateItems(List<String> eleminateItems, String recipeIngredients) {
 
 		for (String avoidItem : eleminateItems) {
-
-			if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) {
-				return true;
+			if (recipeIngredients == null) {
+				Loggerload.info("No recipeIngredients");
+			} else {
+				if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) {
+					Loggerload.info("Contains Item :" + avoidItem);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	
 	public boolean isToAddItemsPresent(List<String> toAddItems, String recipeIngredients) {
 
 		for (String bestFood : toAddItems) {
+			if (recipeIngredients == null) {
+				Loggerload.info("No recipeIngredients");
+			} else {
+				if (recipeIngredients.toUpperCase().contains(bestFood.toUpperCase())) {
+					Loggerload.info("Contains to Add Item :" + bestFood);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-			if (recipeIngredients.toUpperCase().contains(bestFood.toUpperCase())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
 	public boolean hasAllergyItems(List<String> eleminateItems, String allergyItem, String recipeIngredients) {
-		
-		for (String avoidItem : eleminateItems) 
-		{
-			if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) 
-			{
-				return true;
-			}
-			if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
-				return true;
+
+		for (String avoidItem : eleminateItems) {
+			if (recipeIngredients == null) {
+				Loggerload.info("No recipeIngredients");
+			} else {
+				if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) {
+					return true;
+				}
+				if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-	
+
+	public String findRecipeCategory(WebDriver driver) {
+
+		String recipeCat = "";
+		ArrayList<String> tagList = new ArrayList<String>();
+		List<WebElement> listTagElem = driver.findElements(By.xpath("//*[@id='recipe_tags']/a"));
+		for (WebElement eachTag : listTagElem) {
+
+			tagList.add(eachTag.getText());
+		}
+
+		for (String eachTagItem : tagList) {
+
+			if (eachTagItem.toUpperCase().contains("Breakfast".toUpperCase())) {
+				recipeCat = "Breakfast";
+			} else if (eachTagItem.toUpperCase().contains("Snack".toUpperCase())) {
+				recipeCat = "Snack";
+			} else if (eachTagItem.toUpperCase().contains("Snacks".toUpperCase())) {
+				recipeCat = "Snacks";
+			} else if (eachTagItem.toUpperCase().contains("Lunch".toUpperCase())) {
+				recipeCat = "Lunch";
+			} else if (eachTagItem.toUpperCase().contains("Dinner".toUpperCase())) {
+				recipeCat = "Dinner";
+			} else {
+				recipeCat = "No Category Available";
+			}
+		}
+
+		return recipeCat;
+	}
+
 	public void waitForElement(WebElement element) {
 		new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(element));
 
@@ -73,13 +109,16 @@ public class CommonUtilities {
 		return textElement.getText();
 	}
 
-	public void findByID(WebDriver driver, String id) {
+	public WebElement findByElement(WebDriver driver, String locator) {
+		WebElement ele = null;
 		try {
-			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(10))
-					.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(id)));
+			ele = new WebDriverWait(driver, Duration.ofSeconds(10))
+					.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Loggerload.error(e.getMessage());
 		}
+
+		return ele;
 	}
 
 	public WebElement findByXpath(WebDriver driver, String xpath) {
@@ -88,7 +127,7 @@ public class CommonUtilities {
 	}
 
 	public void isElementPresent(WebDriver driver, String id) {
-		// WebElement myElement driver.findElement(By.cssSelector("#myElement"));
+
 		if (driver.findElement(By.id(id)) != null) {
 			System.out.println("My element was found on the page");
 		} else {
@@ -96,34 +135,8 @@ public class CommonUtilities {
 		}
 	}
 
-	public String findRecipeCategory(WebDriver driver) {
+	public WebElement prepareXpath(String xpathValue, String substitutionValue) {
 
-		String recipeCat = "";
-		ArrayList<String> tagList = new ArrayList<String>();
-		// String[] catList = {"Breakfast","Snack","Snacks","Lunch","Dinner"};
-		List<WebElement> listTagElem = driver.findElements(By.xpath("//*[@id=\"recipe_tags\"]/a"));
-		for (WebElement eachTag : listTagElem) {
-
-			tagList.add(eachTag.getText());
-		}
-
-		for (String eachCat : tagList) {
-
-			if (eachCat.toUpperCase().contains("Breakfast".toUpperCase())) {
-				recipeCat = "Breakfast";
-			} else if (eachCat.toUpperCase().contains("Snack".toUpperCase())) {
-				recipeCat = "Snack";
-			} else if (eachCat.toUpperCase().contains("Snacks".toUpperCase())) {
-				recipeCat = "Snacks";
-			} else if (eachCat.toUpperCase().contains("Lunch".toUpperCase())) {
-				recipeCat = "Lunch";
-			} else if (eachCat.toUpperCase().contains("Dinner".toUpperCase())) {
-				recipeCat = "Dinner";
-			} else {
-				recipeCat = "No Category Available";
-			}
-		}
-
-		return recipeCat;
+		return driver.findElement(By.xpath(xpathValue.replace("placeholder", substitutionValue)));
 	}
 }
