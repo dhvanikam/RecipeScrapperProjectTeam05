@@ -11,15 +11,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
+import utilities.Compare;
 import utilities.ConfigReader;
 import utilities.Loggerload;
-
+import utilities.Scrape;
 import utilities.ScraperUtility;
 
 public class TestScrapeAll {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
-
+	Scrape scr = new Scrape();
+	Compare cmr = new Compare();
 	@BeforeClass
 	public void testSetup() throws Throwable {
 		// Get browser Type from Config file
@@ -35,34 +37,36 @@ public class TestScrapeAll {
 	@BeforeMethod
 	public void openBrowser() {
 		driver.get(ConfigReader.getApplicationUrl());
-		System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
+		//System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
+		Loggerload.info(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)
-	public void test01loop() throws IOException, InterruptedException {
-		scrapeutil.test01loop(driver, "PCOS");
-
+	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
+		Loggerload.info("Sraping data for morbiditi PCOS");
+		scrapeutil.srapePages(driver, "PCOS");
+		
 	}
 
 	@Test(priority = 2)
-	public void test02loop() throws IOException, InterruptedException {
-
-		scrapeutil.test01loop(driver, "Hypothyroidism");
-
+	public void testScrapeMorbiditiHypothyroidism() throws IOException, InterruptedException {
+		Loggerload.info("Sraping data for morbiditi Hypothyroidism");
+		scrapeutil.srapePages(driver, "Hypothyroidism");
+		
 	}
 
 	@Test(priority = 3)
-	public void test03loop() throws IOException, InterruptedException {
-
-		scrapeutil.test01loop(driver, "Diabetic");
-
+	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
+		Loggerload.info("Sraping data for morbiditi Diabetic");
+		scrapeutil.srapePages(driver, "Diabetic");
+		
 	}
 
 	@Test(priority = 4)
-	public void test04loop() throws IOException, InterruptedException {
-
-		scrapeutil.test01loop(driver, "High Blood Pressure");
-
+	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
+		Loggerload.info("Sraping data for morbiditi High Blood Pressure");
+		scrapeutil.srapePages(driver, "High Blood Pressure");
+		
 	}
 
 	@AfterClass

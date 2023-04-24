@@ -2,7 +2,6 @@ package utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -12,21 +11,20 @@ import org.openqa.selenium.WebElement;
 
 public class ScraperUtility {
 	public static WebDriver driver;
-	boolean isContainEliminateItem;
-	boolean isContainEliminateItems;
-	boolean isContainToAddItems;
 	ExcelUtilityWriter util = new ExcelUtilityWriter();
 	ToAddItemsExcelWriter addItemsExcelWriter = new ToAddItemsExcelWriter();
 	CommonUtilities comnutil = new CommonUtilities();
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
+
+	boolean isContainEliminateItem;
+	boolean isContainEliminateItems;
+	boolean isContainToAddItems;
 	boolean isContainAllergyItem;
 
 	// Locators
 	String recipesButton = "//*[@id='nav']/li[1]/a";
-	String recipelist = "//*[@id='maincontent']//article";
-	String listRecipes = "//*[@id='maincontent']//article";
+	String listRecipesXpath = "//*[@id='maincontent']//article";
 	String recipeNameClassName = "rcc_recipename";
-	String recipe_catg_path = "//*[@id='ctl00_cntleftpanel_lblSearchTerm']/span/h1";
 	String ingredientsId = "rcpinglist";
 	String preparationTimeXpath = "//*[@itemprop='prepTime']";
 	String cookingTimeXpath = "//*[@itemprop='cookTime']";
@@ -37,194 +35,167 @@ public class ScraperUtility {
 	// Recipe data variables
 	String recipeID;
 	String recipeName;
-	String recipe_category;
 	String ingredients;
+	String recipeCategory;
 	String preparationTime;
 	String cookingTime;
 	String foodcategory = "Vegetarian";
 	String preparationMethod;
 	String nutrientValues;
 	String recipeURL;
-	String Allery_item;
 
-	public void test01loop(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
-		String recipedatapath = ConfigReader.getRecipePath();
+	public void srapePages(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
+		String recipeDataPath = ConfigReader.getRecipePath();
 		String toAddItemRecipePath = ConfigReader.getToAddItemPath();
-		String allergydatapath = ConfigReader.getAllergyPath();
+		String allergyDataPath = ConfigReader.getAllergyPath();
 
-		// morbiditi = ConfigReader.getMorbiditi();
 		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
 				+ morbiditi + "')]";
 
-		List<LinkedHashMap<String, String>> allData = new ArrayList<LinkedHashMap<String, String>>();
+		// List of map to store data
+		List<LinkedHashMap<String, String>> allRecipeData = new ArrayList<LinkedHashMap<String, String>>();
 		List<LinkedHashMap<String, String>> toAddItemsData = new ArrayList<LinkedHashMap<String, String>>();
 
-		List<LinkedHashMap<String, String>> allergyData = new ArrayList<LinkedHashMap<String, String>>();
-
-		// Compare the eliminate List with Ingredients
+		// Comparision list : The eliminate List with Ingredients
 		List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
 		List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
-		
+
+		// Click on Recipe button
 		driver.findElement(By.xpath(recipesButton)).click();
+
+		// Click on Morbidity under Healthy Recipes
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
 
+		// Pagination : Get the last page number
 		String pages = driver.findElement(By.xpath(lastPageXpath)).getText();
 		int totalPages = Integer.parseInt(pages);
-		for (int i = 1; i <= 1; i++) {
+
+		// Pagination : Loop through all pages
+		for (int i = 1; i <= totalPages; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
-					WebElement pagen = driver.findElement(By.xpath(pagenumber));
-					comnutil.waitForElement(pagen);
-					pagen.click();
-
+					driver.findElement(By.xpath(pagenumber)).click();
+					comnutil.findByElement(driver, pagenumber);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Loggerload.info(e.getStackTrace());
 				}
 			}
-			
-			List<WebElement> list = driver.findElements(By.xpath(listRecipes));
 
-			for (int j = 1; j < list.size(); j++) {
+			List<WebElement> listOfRecipesOnPage = driver.findElements(By.xpath(listRecipesXpath));
 
-				LinkedHashMap<String, String> eachData = new LinkedHashMap<>();
-				LinkedHashMap<String, String> Allergy_eachData = new LinkedHashMap<>();
+			for (int j = 1; j < listOfRecipesOnPage.size(); j++) {
+
+				// eachRecipeData Map
+				LinkedHashMap<String, String> eachRecipeData = new LinkedHashMap<>();
 
 				try {
-					// Scrape from main page
+					// Scrape from each recipe on a page and store in LinkedHashMap
+					// ****On the page***//
+					// Get RecipeID
 					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span"))
 							.getText();
 					String[] recipeid = recipeID.split("\\R");
-					eachData.put("RecipeID", recipeid[0]);
-					Allergy_eachData.put("RecipeID", recipeid[0]);
 
+					// Get RecipeName
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
 							.getText();
-					eachData.put("RecipeName", recipeName);
-					Allergy_eachData.put("RecipeName", recipeName);
+					eachRecipeData.put("Recipe Name", recipeName);
 
-					// Click on recipe
+					// ****Inside the recipe***//
+					// Click on Recipe
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
 
-					// recipe_category = driver.findElement(By.xpath(recipe_catg_path)).getText();
-					String recipecategory = comnutil.findRecipeCategory(driver);
-					eachData.put("Recipe Category", recipecategory);
-					Allergy_eachData.put("Recipe Category", recipecategory);
+					// Get the Recipe Category
+					recipeCategory = comnutil.findRecipeCategory(driver);
+					eachRecipeData.put("Recipe Category", recipeCategory);
 
-					// Scrape from recipe page
+					// Get the Recipe Ingredients
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
-					eachData.put("Ingredients", ingredients);
-					Allergy_eachData.put("Ingredients", ingredients);
+					eachRecipeData.put("Ingredients", ingredients);
 
+					// Get the recipe PreparationTime
 					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
 					comnutil.findByXpath(driver, preparationTimeXpath);
 					preparationTime = prepTime.getText();
-					eachData.put("PreparationTime", preparationTime);
-					Allergy_eachData.put("PreparationTime", preparationTime);
+					eachRecipeData.put("Preparation Time", preparationTime);
 
+					// Get the recipe CookingTime
 					comnutil.findByXpath(driver, cookingTimeXpath);
 					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
-					eachData.put("CookingTime", cookingTime);
+					eachRecipeData.put("Cooking Time", cookingTime);
 
-					eachData.put("Food category", foodcategory);
+					// Set the Food Category
+					eachRecipeData.put("Food category", foodcategory);
 
+					// Get the recipe PreparationMethod
 					preparationMethod = driver.findElement(By.id(preparationMethodId)).getText();
-					eachData.put("PreparationMethod", preparationMethod);
+					eachRecipeData.put("Preparation Method", preparationMethod);
 
+					// Get the NutrientValues
 					nutrientValues = driver.findElement(By.id(nutrientValuesId)).getText();
-					eachData.put("NutrientValues", nutrientValues);
+					eachRecipeData.put("Nutrient Values", nutrientValues);
 
+					// Get the recipe URL
 					recipeURL = driver.getCurrentUrl();
-					eachData.put("RecipeURL", recipeURL);
-					Allergy_eachData.put("RecipeURL", recipeURL);
+					eachRecipeData.put("Recipe URL", recipeURL);
 
 				} catch (Exception e) {
-					e.printStackTrace();
+					Loggerload.info(e.getStackTrace());
 				}
-
-				System.out.println(recipeID);
-
-//				// Compare the eliminate List with Ingredients
-//				List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
-//				List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
 
 				if (ingredients == null) {
 					ingredients = "";
 
 				}
+				// Check ingredients against EliminateItem list
 				isContainEliminateItems = comnutil.hasEliminateItems(readEliminateList, ingredients);
 
+				// Check ingredients against ToAdd item list
 				isContainToAddItems = comnutil.isToAddItemsPresent(readToAddItemList, ingredients);
 
-				// compare the eliminate list and ToADD list
+				// Filter the eliminate list and ToADD list
 				if (!isContainEliminateItems) {
-					System.out.println("This receipe does not contain eliminateditem(s): " + recipeName);
-					allData.add(eachData);
+					Loggerload.info("This receipe does not contain eliminateditem(s): " + recipeName);
+					allRecipeData.add(eachRecipeData);
 
 					if (isContainToAddItems) {
-						System.out.println("This receipe contains to Add Item(s): " + recipeName);
-						toAddItemsData.add(eachData);
+						Loggerload.info("This receipe contains to Add Item(s): " + recipeName);
+						toAddItemsData.add(eachRecipeData);
 					}
 
-					System.out.println("Contains eliminated item");
+					Loggerload.info("Contains eliminated item");
 
 				} else {
-
-					System.out.println("Contains eliminateditem in recipeName: " + recipeName);
+					allRecipeData.add(eachRecipeData);
+					Loggerload.info("Contains eliminateditem in recipeName: " + recipeName);
 				}
-
-				// scrapping allergy item milk
-//				String[] Allery_item = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut",
-//						"pecan", "cashew", "pistachio", "shell fish", "seafood" };
-//				String[] Allery_item = { "milk" };
-//				ArrayList<String> filtered_items = new ArrayList<String>();
-//				for (String item : Allery_item) {
-//					isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, item, ingredients);
-
-//					if (isContainAllergyItem) {
-//						System.out.println("Contains allergy item  " + item);
-						//Allergy_eachData.put("Contains "+item +" ?", "Yes");
-//					} else {
-//						Allergy_eachData.put("Donot have Allergy Item"+item, item);
-//						allergyData.add(Allergy_eachData);
-//						filtered_items.add(item);
-//						System.out.println("Does not Contains allergy item" + item);
-//						Allergy_eachData.put("Contains "+item+" ?" , "No");
-//						allergyData.add(Allergy_eachData);
-//					}
-//				}
-
-//				allergyData.add(Allergy_eachData);
-				
-//				if (filtered_items.size() != 0) {
-//					Allergy_eachData.put("Donot have Allergy Item", filtered_items.toString());
-//					allergyData.add(Allergy_eachData);	
-//				}
 
 				driver.navigate().back();
 
 			} // recipe loop
 
 		}
-		
-		String[] Allery_item = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut",
-		"pecan", "cashew", "pistachio", "shell fish", "seafood" };
-		for (String allergy : Allery_item) {
-			ArrayList<LinkedHashMap<String, String>> filtered_items = new ArrayList<>();
-			for (LinkedHashMap<String, String> recipe : allData) {
+
+		// Filter the allergy from eliminate list
+		String[] allergyItem = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut", "pecan",
+				"cashew", "pistachio", "shell fish", "seafood" };
+		for (String allergy : allergyItem) {
+			ArrayList<LinkedHashMap<String, String>> filteredItemsList = new ArrayList<>();
+			for (LinkedHashMap<String, String> recipe : allRecipeData) {
 				isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, allergy, recipe.get("Ingredients"));
 				if (!isContainAllergyItem) {
-					filtered_items.add(recipe);
+					Loggerload.info("Contains allergy item : " + allergy);
+					filteredItemsList.add(recipe);
 				}
 			}
-			util.saveDataToExcel(filtered_items, allergy, allergydatapath.replace("AllergyData","AllergyData_"+morbiditi));
+			util.saveDataToExcel(filteredItemsList, allergy,
+					allergyDataPath.replace("AllergyData", "AllergyData_" + morbiditi));
 		}
 
-		util.saveDataToExcel(allData, morbiditi, recipedatapath);
+		util.saveDataToExcel(allRecipeData, morbiditi, recipeDataPath);
 		util.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
-		// addItemsExcelWriter.saveDataToExcel(toAddItemsData, morbiditi,
-		// toAddItemRecipePath);
-//		util.saveDataToExcel(allergyData, morbiditi, allergydatapath);
+
 	}
 }
