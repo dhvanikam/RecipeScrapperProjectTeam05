@@ -11,17 +11,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import driverFactory.DriverFactory;
-import utilities.Compare;
 import utilities.ConfigReader;
 import utilities.Loggerload;
-import utilities.Scrape;
 import utilities.ScraperUtility;
 
 public class TestScrapeAll {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
-	Scrape scr = new Scrape();
-	Compare cmr = new Compare();
+
 	@BeforeClass
 	public void testSetup() throws Throwable {
 		// Get browser Type from Config file
@@ -43,28 +40,28 @@ public class TestScrapeAll {
 
 	@Test(priority = 1)
 	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
-		Loggerload.info("Sraping data for morbiditi PCOS");
+		Loggerload.info("Scraping data for morbiditi PCOS");
 		scrapeutil.srapePages(driver, "PCOS");
 		
 	}
 
 	@Test(priority = 2)
 	public void testScrapeMorbiditiHypothyroidism() throws IOException, InterruptedException {
-		Loggerload.info("Sraping data for morbiditi Hypothyroidism");
+		Loggerload.info("Scraping data for morbiditi Hypothyroidism");
 		scrapeutil.srapePages(driver, "Hypothyroidism");
 		
 	}
 
 	@Test(priority = 3)
 	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
-		Loggerload.info("Sraping data for morbiditi Diabetic");
+		Loggerload.info("Scraping data for morbiditi Diabetic");
 		scrapeutil.srapePages(driver, "Diabetic");
 		
 	}
 
 	@Test(priority = 4)
 	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
-		Loggerload.info("Sraping data for morbiditi High Blood Pressure");
+		Loggerload.info("Scraping data for morbiditi High Blood Pressure");
 		scrapeutil.srapePages(driver, "High Blood Pressure");
 		
 	}

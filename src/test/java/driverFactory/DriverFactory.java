@@ -22,14 +22,14 @@ public class DriverFactory {
 
 		if (browser.equalsIgnoreCase("firefox")) {
 			Loggerload.info("Testing on firefox");
-			//FirefoxBinary firefoxBinary = new FirefoxBinary();
-	       // firefoxBinary.addCommandLineOptions("--headless");
-	       // FirefoxOptions options = new FirefoxOptions();
+			FirefoxBinary firefoxBinary = new FirefoxBinary();
+	        firefoxBinary.addCommandLineOptions("--headless");
+	        FirefoxOptions options = new FirefoxOptions();
 	  
-	       // options.setBinary(firefoxBinary);
+	       options.setBinary(firefoxBinary);
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-			 //options.setBinary(firefoxBinary);
+			driver = new FirefoxDriver(options);
+			 options.setBinary(firefoxBinary);
 
 		} else if (browser.equalsIgnoreCase("chrome")) {
 			Loggerload.info("Testing on chrome");
@@ -50,7 +50,7 @@ public class DriverFactory {
 
 		}
 		// Set Page load timeout
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
 
 		driver.manage().window().maximize();
 

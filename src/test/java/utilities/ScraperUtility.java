@@ -11,9 +11,9 @@ import org.openqa.selenium.WebElement;
 
 public class ScraperUtility {
 	public static WebDriver driver;
-	ExcelUtilityWriter util = new ExcelUtilityWriter();
+	ExcelUtilityWriter utilWriter = new ExcelUtilityWriter();
 	ToAddItemsExcelWriter addItemsExcelWriter = new ToAddItemsExcelWriter();
-	CommonUtilities comnutil = new CommonUtilities();
+	CommonUtilities commonUtil = new CommonUtilities();
 	ExcelUtilityReader utilReader = new ExcelUtilityReader();
 
 	boolean isContainEliminateItem;
@@ -59,25 +59,26 @@ public class ScraperUtility {
 		// Comparision list : The eliminate List with Ingredients
 		List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
 		List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
+		List<String> readToAllergyList = utilReader.getAllergy();
 
 		// Click on Recipe button
 		driver.findElement(By.xpath(recipesButton)).click();
 
 		// Click on Morbidity under Healthy Recipes
 		driver.findElement(By.xpath(morbiditiLink)).click();
-		comnutil.scrollPage(driver);
+		commonUtil.scrollPage(driver);
 
 		// Pagination : Get the last page number
 		String pages = driver.findElement(By.xpath(lastPageXpath)).getText();
 		int totalPages = Integer.parseInt(pages);
 
 		// Pagination : Loop through all pages
-		for (int i = 1; i <= totalPages; i++) {
+		for (int i = 1; i <= 1; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
 					driver.findElement(By.xpath(pagenumber)).click();
-					comnutil.findByElement(driver, pagenumber);
+
 				} catch (Exception e) {
 					Loggerload.info(e.getStackTrace());
 				}
@@ -97,6 +98,7 @@ public class ScraperUtility {
 					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span"))
 							.getText();
 					String[] recipeid = recipeID.split("\\R");
+					eachRecipeData.put("Recipe ID", recipeid[0]);
 
 					// Get RecipeName
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
@@ -108,7 +110,7 @@ public class ScraperUtility {
 					driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a")).click();
 
 					// Get the Recipe Category
-					recipeCategory = comnutil.findRecipeCategory(driver);
+					recipeCategory = commonUtil.findRecipeCategory(driver);
 					eachRecipeData.put("Recipe Category", recipeCategory);
 
 					// Get the Recipe Ingredients
@@ -117,12 +119,12 @@ public class ScraperUtility {
 
 					// Get the recipe PreparationTime
 					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
-					comnutil.findByXpath(driver, preparationTimeXpath);
+					commonUtil.findByXpath(driver, preparationTimeXpath);
 					preparationTime = prepTime.getText();
 					eachRecipeData.put("Preparation Time", preparationTime);
 
 					// Get the recipe CookingTime
-					comnutil.findByXpath(driver, cookingTimeXpath);
+					commonUtil.findByXpath(driver, cookingTimeXpath);
 					cookingTime = driver.findElement(By.xpath(cookingTimeXpath)).getText();
 					eachRecipeData.put("Cooking Time", cookingTime);
 
@@ -150,18 +152,18 @@ public class ScraperUtility {
 
 				}
 				// Check ingredients against EliminateItem list
-				isContainEliminateItems = comnutil.hasEliminateItems(readEliminateList, ingredients);
+				isContainEliminateItems = commonUtil.hasEliminateItems(readEliminateList, ingredients);
 
 				// Check ingredients against ToAdd item list
-				isContainToAddItems = comnutil.isToAddItemsPresent(readToAddItemList, ingredients);
+				isContainToAddItems = commonUtil.isToAddItemsPresent(readToAddItemList, ingredients);
 
 				// Filter the eliminate list and ToADD list
 				if (!isContainEliminateItems) {
-					Loggerload.info("This receipe does not contain eliminateditem(s): " + recipeName);
+					Loggerload.info(morbiditi + " : This receipe does not contain eliminateditem(s): " + recipeName);
 					allRecipeData.add(eachRecipeData);
 
 					if (isContainToAddItems) {
-						Loggerload.info("This receipe contains to Add Item(s): " + recipeName);
+						Loggerload.info(morbiditi + " : This receipe contains to Add Item(s): " + recipeName);
 						toAddItemsData.add(eachRecipeData);
 					}
 
@@ -169,33 +171,36 @@ public class ScraperUtility {
 
 				} else {
 					allRecipeData.add(eachRecipeData);
-					Loggerload.info("Contains eliminateditem in recipeName: " + recipeName);
+					Loggerload.info(morbiditi + " : Contains eliminateditem in recipeName: " + recipeName);
 				}
 
 				driver.navigate().back();
-
+				
 			} // recipe loop
 
 		}
 
 		// Filter the allergy from eliminate list
-		String[] allergyItem = { "milk", "peanuts", "egg", "sesame", "peanuts", "walnut", "almond", "hazelnut", "pecan",
-				"cashew", "pistachio", "shell fish", "seafood" };
-		for (String allergy : allergyItem) {
+		// String[] allergyItem = { "milk", "peanuts", "egg", "sesame", "peanuts",
+		// "walnut", "almond", "hazelnut", "pecan",
+		// "cashew", "pistachio", "shell fish", "seafood" };
+
+		for (String allergy : readToAllergyList) {
 			ArrayList<LinkedHashMap<String, String>> filteredItemsList = new ArrayList<>();
 			for (LinkedHashMap<String, String> recipe : allRecipeData) {
-				isContainAllergyItem = comnutil.hasAllergyItems(readEliminateList, allergy, recipe.get("Ingredients"));
+				isContainAllergyItem = commonUtil.hasAllergyItems(readEliminateList, allergy,
+						recipe.get("Ingredients"));
 				if (!isContainAllergyItem) {
-					Loggerload.info("Contains allergy item : " + allergy);
+					Loggerload.info("Not Contains allergy item : " + allergy);
 					filteredItemsList.add(recipe);
 				}
 			}
-			util.saveDataToExcel(filteredItemsList, allergy,
+			utilWriter.saveDataToExcel(filteredItemsList, allergy,
 					allergyDataPath.replace("AllergyData", "AllergyData_" + morbiditi));
 		}
 
-		util.saveDataToExcel(allRecipeData, morbiditi, recipeDataPath);
-		util.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
+		utilWriter.saveDataToExcel(allRecipeData, morbiditi, recipeDataPath);
+		utilWriter.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
 
 	}
 }
