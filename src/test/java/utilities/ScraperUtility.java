@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -44,14 +45,15 @@ public class ScraperUtility {
 	String nutrientValues;
 	String recipeURL;
 
-	public void srapePages(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
+	public void scrapePages(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
 		String recipeDataPath = ConfigReader.getRecipePath();
 		String toAddItemRecipePath = ConfigReader.getToAddItemPath();
 		String allergyDataPath = ConfigReader.getAllergyPath();
 
-		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
-				+ morbiditi + "')]";
-
+		 String morbiditiLink =
+		 "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
+		 + morbiditi + "')]";
+		
 		// List of map to store data
 		List<LinkedHashMap<String, String>> allRecipeData = new ArrayList<LinkedHashMap<String, String>>();
 		List<LinkedHashMap<String, String>> toAddItemsData = new ArrayList<LinkedHashMap<String, String>>();
@@ -71,16 +73,17 @@ public class ScraperUtility {
 		// Pagination : Get the last page number
 		String pages = driver.findElement(By.xpath(lastPageXpath)).getText();
 		int totalPages = Integer.parseInt(pages);
-
+		Loggerload.info("Total Pages" + totalPages);
 		// Pagination : Loop through all pages
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= totalPages; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
 					driver.findElement(By.xpath(pagenumber)).click();
 
 				} catch (Exception e) {
-					Loggerload.info(e.getStackTrace());
+					Loggerload.info("Cannot click on page : " + i);
+					Loggerload.info(e.getCause());
 				}
 			}
 
@@ -144,7 +147,8 @@ public class ScraperUtility {
 					eachRecipeData.put("Recipe URL", recipeURL);
 
 				} catch (Exception e) {
-					Loggerload.info(e.getStackTrace());
+					Loggerload.info(e.getMessage());
+
 				}
 
 				if (ingredients == null) {
@@ -167,23 +171,16 @@ public class ScraperUtility {
 						toAddItemsData.add(eachRecipeData);
 					}
 
-					Loggerload.info("Contains eliminated item");
-
 				} else {
-					allRecipeData.add(eachRecipeData);
+
 					Loggerload.info(morbiditi + " : Contains eliminateditem in recipeName: " + recipeName);
 				}
 
 				driver.navigate().back();
-				
+
 			} // recipe loop
 
 		}
-
-		// Filter the allergy from eliminate list
-		// String[] allergyItem = { "milk", "peanuts", "egg", "sesame", "peanuts",
-		// "walnut", "almond", "hazelnut", "pecan",
-		// "cashew", "pistachio", "shell fish", "seafood" };
 
 		for (String allergy : readToAllergyList) {
 			ArrayList<LinkedHashMap<String, String>> filteredItemsList = new ArrayList<>();

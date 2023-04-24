@@ -41,28 +41,28 @@ public class TestScrapeAll {
 	@Test(priority = 1)
 	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi PCOS");
-		scrapeutil.srapePages(driver, "PCOS");
+		scrapeutil.scrapePages(driver, "PCOS");
 		
 	}
 
 	@Test(priority = 2)
 	public void testScrapeMorbiditiHypothyroidism() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi Hypothyroidism");
-		scrapeutil.srapePages(driver, "Hypothyroidism");
+		scrapeutil.scrapePages(driver, "Hypothyroidism");
 		
 	}
 
 	@Test(priority = 3)
 	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi Diabetic");
-		scrapeutil.srapePages(driver, "Diabetic");
+		scrapeutil.scrapePages(driver, "Diabetic");
 		
 	}
 
 	@Test(priority = 4)
 	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi High Blood Pressure");
-		scrapeutil.srapePages(driver, "High Blood Pressure");
+		scrapeutil.scrapePages(driver, "High Blood Pressure");
 		
 	}
 
