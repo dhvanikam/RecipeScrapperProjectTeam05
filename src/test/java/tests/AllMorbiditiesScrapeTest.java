@@ -15,7 +15,7 @@ import utilities.ConfigReader;
 import utilities.Loggerload;
 import utilities.ScraperUtility;
 
-public class TestScrapeAll {
+public class AllMorbiditiesScrapeTest {
 	public static WebDriver driver;
 	ScraperUtility scrapeutil = new ScraperUtility();
 
@@ -38,31 +38,31 @@ public class TestScrapeAll {
 	}
 
 	@Test(priority = 1)
-	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
+	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi Diabetic");
-		scrapeutil.scrapePages(driver, "Diabetic");
+		scrapeutil.scrapeAllPages(driver, "Diabetic");
 
 	}
 
 	@Test(priority = 2)
 	public void testScrapeMorbiditiHypothyroidism() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi Hypothyroidism");
-		scrapeutil.scrapePages(driver, "Hypothyroidism");
+		scrapeutil.scrapeAllPages(driver, "Hypothyroidism");
 
 	}
 
 	@Test(priority = 3)
-	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
+	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi High Blood Pressure");
-		//scrapeutil.scrapePages(driver, "High Blood Pressure");
+		scrapeutil.scrapeAllPages(driver, "High Blood Pressure");
 
 	}
 
 	@Test(priority = 4)
-	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
+	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
 
 		Loggerload.info("Scraping data for morbiditi PCOS");
-		//scrapeutil.scrapePages(driver, "PCOS");
+		scrapeutil.scrapeAllPages(driver, "PCOS");
 	}
 
 	@AfterClass
