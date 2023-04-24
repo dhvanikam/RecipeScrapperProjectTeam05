@@ -43,26 +43,33 @@ public class ConfigReader {
 		else
 			throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
+	public static String getExcelPath() {
+		String url = properties.getProperty("excelfilepath");
+		if (url != null)
+			return url;
+		else
+			throw new RuntimeException("Excelfilepath not specified in the Configuration.properties file.");
+	}
 	public static String getRecipePath() {
 		String url = properties.getProperty("recipedatapath");
 		if (url != null)
 			return url;
 		else
-			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+			throw new RuntimeException("Recipedatapath not specified in the Configuration.properties file.");
 	}
 	public static String getAllergyPath() {
 		String url = properties.getProperty("allergyrecipedatapath");
 		if (url != null)
 			return url;
 		else
-			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+			throw new RuntimeException("Allergyrecipedatapath not specified in the Configuration.properties file.");
 	}
 	public static String getToAddItemPath() {
 		String url = properties.getProperty("toadditemrecipedatapath");
 		if (url != null)
 			return url;
 		else
-			throw new RuntimeException("morbiditi not specified in the Configuration.properties file.");
+			throw new RuntimeException("Toadditemrecipedatapath not specified in the Configuration.properties file.");
 	}
 
 }

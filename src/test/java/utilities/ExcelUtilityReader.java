@@ -1,6 +1,5 @@
 package utilities;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelUtilityReader {
 	
 	public List<String> getmorbidityElimination(String morbidity) throws IOException {
+		String excelFilePath = ConfigReader.getExcelPath();
 		List<String> eleminated_list = new ArrayList<String>();
-		String excelfilepath = "./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream = new FileInputStream(excelfilepath);
+		FileInputStream iputstream = new FileInputStream(excelFilePath);
 
 		XSSFWorkbook workbook = new XSSFWorkbook(iputstream);
 
@@ -79,13 +78,13 @@ public class ExcelUtilityReader {
 		return eleminated_list;
 
 	}
-	
+
 	/******************************************************************/
-	
+
 	public List<String> getmorbidityTOADD(String morbidity) throws IOException {
+		String excelFilePath = ConfigReader.getExcelPath();
 		List<String> TOadd_list = new ArrayList<String>();
-		String excelfilepath = "./src/test/resources/ExcelData/IngredientsAndComorbidities-ScrapperHackathon.xlsx";
-		FileInputStream iputstream = new FileInputStream(excelfilepath);
+		FileInputStream iputstream = new FileInputStream(excelFilePath);
 
 		XSSFWorkbook workbook = new XSSFWorkbook(iputstream);
 
@@ -150,5 +149,30 @@ public class ExcelUtilityReader {
 
 	}
 
+	public List<String> getAllergy() throws IOException {
+		String excelFilePath = ConfigReader.getExcelPath();
+		List<String> Allergy_list = new ArrayList<String>();
+		FileInputStream iputstream = new FileInputStream(excelFilePath);
+
+		XSSFWorkbook workbook = new XSSFWorkbook(iputstream);
+
+		XSSFSheet sheet = workbook.getSheet("Allergy");
+		int rows = sheet.getLastRowNum();
+
+		for (int r = 0; r <= rows; r++) {
+
+			XSSFRow row = sheet.getRow(r);
+
+			XSSFCell cell = row.getCell(0);
+			String rowvalue = cell.getStringCellValue();
+			if (rowvalue.equals("")) {
+				r = rows + 1;
+			} else {
+				Allergy_list.add(rowvalue);
+			}
+		}
+
+		return Allergy_list;
+	}
 
 }
