@@ -28,7 +28,7 @@ public class CommonUtilities {
 				Loggerload.info("No recipeIngredients");
 			} else {
 				if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) {
-					Loggerload.info("Contains Item :" + avoidItem);
+					Loggerload.info("Contains Eliminated Item :" + avoidItem);
 					return true;
 				}
 			}
@@ -126,17 +126,4 @@ public class CommonUtilities {
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
 	}
 
-	public void isElementPresent(WebDriver driver, String id) {
-
-		if (driver.findElement(By.id(id)) != null) {
-			System.out.println("My element was found on the page");
-		} else {
-			System.out.println("My Element was not found on the page");
-		}
-	}
-
-	public WebElement prepareXpath(String xpathValue, String substitutionValue) {
-
-		return driver.findElement(By.xpath(xpathValue.replace("placeholder", substitutionValue)));
-	}
 }

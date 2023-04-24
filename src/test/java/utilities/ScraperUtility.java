@@ -6,9 +6,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+/*This Class will 
+ * Scrape the Data : Locate and get data
+ * Compare scraped data with Eliminated list,To Add list, Allergy list
+ * Save : Save filtered data to excel sheets
+ * 
+ * */
 
 public class ScraperUtility {
 	public static WebDriver driver;
@@ -44,20 +50,20 @@ public class ScraperUtility {
 	String nutrientValues;
 	String recipeURL;
 
-	public void scrapePages(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
+	public void scrapeAllPages(WebDriver driver, String morbiditi) throws IOException, InterruptedException {
 		String recipeDataPath = ConfigReader.getRecipePath();
 		String toAddItemRecipePath = ConfigReader.getToAddItemPath();
 		String allergyDataPath = ConfigReader.getAllergyPath();
 
-		 String morbiditiLink =
-		 "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
-		 + morbiditi + "')]";
-		
+		String morbiditiLink = "//*[@id='tdcpgtyp2_leftpanel']/table//div/table//tr//td[3]//a[contains(@title,'"
+				+ morbiditi + "')]";
+
 		// List of map to store data
 		List<LinkedHashMap<String, String>> allRecipeData = new ArrayList<LinkedHashMap<String, String>>();
 		List<LinkedHashMap<String, String>> toAddItemsData = new ArrayList<LinkedHashMap<String, String>>();
+		List<LinkedHashMap<String, String>> allergyFilteredData = new ArrayList<LinkedHashMap<String, String>>();
 
-		// Comparision list : The eliminate List with Ingredients
+		// Comparison list : The eliminate,To Add, Allergy
 		List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
 		List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
 		List<String> readToAllergyList = utilReader.getAllergy();
@@ -65,7 +71,7 @@ public class ScraperUtility {
 		// Click on Recipe button
 		driver.findElement(By.xpath(recipesButton)).click();
 
-		// Click on Morbidity under Healthy Recipes
+		// Click on morbidity under Healthy Recipes
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		commonUtil.scrollPage(driver);
 
@@ -94,13 +100,15 @@ public class ScraperUtility {
 				LinkedHashMap<String, String> eachRecipeData = new LinkedHashMap<>();
 
 				try {
-					// Scrape from each recipe on a page and store in LinkedHashMap
+					// Scrape from each recipe data on a page and store in LinkedHashMap
 					// ****On the page***//
+
 					// Get RecipeID
 					recipeID = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//div[2]/span"))
 							.getText();
 					String[] recipeid = recipeID.split("\\R");
 					eachRecipeData.put("Recipe ID", recipeid[0]);
+					Loggerload.info("Recipe ID : " + recipeid[0]);
 
 					// Get RecipeName
 					recipeName = driver.findElement(By.xpath("//*[@id='maincontent']//article[" + j + "]//span/a"))
@@ -119,7 +127,7 @@ public class ScraperUtility {
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
 					String[] ingredientslist = ingredients.split("For Serving");
 					eachRecipeData.put("Ingredients", ingredientslist[0]);
-					
+
 					// Get the recipe PreparationTime
 					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
 					commonUtil.findByXpath(driver, preparationTimeXpath);
@@ -173,26 +181,25 @@ public class ScraperUtility {
 
 				} else {
 
-					Loggerload.info(morbiditi + " : Contains eliminateditem in recipeName: " + recipeName);
+					Loggerload.info(morbiditi + " : Contains eliminated item in recipeName: " + recipeName);
 				}
 
 				driver.navigate().back();
-
 			} // recipe loop
 
 		}
 
+		// Filter Allergy list
 		for (String allergy : readToAllergyList) {
-			ArrayList<LinkedHashMap<String, String>> filteredItemsList = new ArrayList<>();
 			for (LinkedHashMap<String, String> recipe : allRecipeData) {
 				isContainAllergyItem = commonUtil.hasAllergyItems(readEliminateList, allergy,
 						recipe.get("Ingredients"));
 				if (!isContainAllergyItem) {
 					Loggerload.info("Not Contains allergy item : " + allergy);
-					filteredItemsList.add(recipe);
+					allergyFilteredData.add(recipe);
 				}
 			}
-			utilWriter.saveDataToExcel(filteredItemsList, allergy,
+			utilWriter.saveDataToExcel(allergyFilteredData, allergy,
 					allergyDataPath.replace("AllergyData", "AllergyData_" + morbiditi));
 		}
 

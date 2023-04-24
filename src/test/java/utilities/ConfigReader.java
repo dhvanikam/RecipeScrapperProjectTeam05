@@ -50,6 +50,15 @@ public class ConfigReader {
 		else
 			throw new RuntimeException("Excelfilepath not specified in the Configuration.properties file.");
 	}
+	
+	public static String getOriginalRecipePath() {
+		String url = properties.getProperty("originalrecipepath");
+		if (url != null)
+			return url;
+		else
+			throw new RuntimeException("Allergyrecipedatapath not specified in the Configuration.properties file.");
+	}
+	
 	public static String getRecipePath() {
 		String url = properties.getProperty("recipedatapath");
 		if (url != null)
