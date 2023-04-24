@@ -29,8 +29,8 @@ public class ScraperUtility {
 	String ingredientsId = "rcpinglist";
 	String preparationTimeXpath = "//*[@itemprop='prepTime']";
 	String cookingTimeXpath = "//*[@itemprop='cookTime']";
-	String preparationMethodId = "ctl00_cntrightpanel_pnlRcpMethod";
-	String nutrientValuesId = "accompaniments";
+	String preparationMethodId = "recipe_small_steps";
+	String nutrientValuesId = "rcpnutrients";
 	String lastPageXpath = "//*[@id='pagination']//a[last()]";
 
 	// Recipe data variables
@@ -75,7 +75,7 @@ public class ScraperUtility {
 		int totalPages = Integer.parseInt(pages);
 		Loggerload.info("Total Pages" + totalPages);
 		// Pagination : Loop through all pages
-		for (int i = 1; i <= totalPages; i++) {
+		for (int i = 1; i <= 1; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
@@ -118,8 +118,9 @@ public class ScraperUtility {
 
 					// Get the Recipe Ingredients
 					ingredients = driver.findElement(By.id(ingredientsId)).getText();
-					eachRecipeData.put("Ingredients", ingredients);
-
+					String[] ingredientslist = ingredients.split("For Serving");
+					eachRecipeData.put("Ingredients", ingredientslist[0]);
+					
 					// Get the recipe PreparationTime
 					WebElement prepTime = driver.findElement(By.xpath(preparationTimeXpath));
 					commonUtil.findByXpath(driver, preparationTimeXpath);

@@ -34,36 +34,35 @@ public class TestScrapeAll {
 	@BeforeMethod
 	public void openBrowser() {
 		driver.get(ConfigReader.getApplicationUrl());
-		//System.out.println("We are currently on the following URL " + driver.getCurrentUrl());
 		Loggerload.info(driver.getCurrentUrl());
 	}
 
 	@Test(priority = 1)
 	public void testScrapeMorbiditiPCOS() throws IOException, InterruptedException {
-		Loggerload.info("Scraping data for morbiditi PCOS");
-		scrapeutil.scrapePages(driver, "PCOS");
-		
+		Loggerload.info("Scraping data for morbiditi Diabetic");
+		scrapeutil.scrapePages(driver, "Diabetic");
+
 	}
 
 	@Test(priority = 2)
 	public void testScrapeMorbiditiHypothyroidism() throws IOException, InterruptedException {
 		Loggerload.info("Scraping data for morbiditi Hypothyroidism");
 		scrapeutil.scrapePages(driver, "Hypothyroidism");
-		
+
 	}
 
 	@Test(priority = 3)
 	public void testScrapeMorbiditiDiabetic() throws IOException, InterruptedException {
-		Loggerload.info("Scraping data for morbiditi Diabetic");
-		scrapeutil.scrapePages(driver, "Diabetic");
-		
+		Loggerload.info("Scraping data for morbiditi High Blood Pressure");
+		//scrapeutil.scrapePages(driver, "High Blood Pressure");
+
 	}
 
 	@Test(priority = 4)
 	public void testScrapeMorbiditiHighBloodPressure() throws IOException, InterruptedException {
-		Loggerload.info("Scraping data for morbiditi High Blood Pressure");
-		scrapeutil.scrapePages(driver, "High Blood Pressure");
-		
+
+		Loggerload.info("Scraping data for morbiditi PCOS");
+		//scrapeutil.scrapePages(driver, "PCOS");
 	}
 
 	@AfterClass
