@@ -45,6 +45,7 @@ public class CommonUtilities {
 		}
 		return false;
 	}
+<<<<<<< Updated upstream
 	
 	
 	public boolean hasAllergyItems(List<String> eleminateItems, String allergyItem, String recipeIngredients) {
@@ -57,8 +58,19 @@ public class CommonUtilities {
 			}
 			if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
 				return true;
+=======
+
+	public boolean hasAllergyItems(List<String> eleminateItems, String allergyItem) {
+
+		for (String avoidItem : eleminateItems) {
+			
+			if (avoidItem.toUpperCase().contains(allergyItem.toUpperCase())) {
+					return true;
+				}
+				
+>>>>>>> Stashed changes
 			}
-		}
+		
 		return false;
 	}
 	

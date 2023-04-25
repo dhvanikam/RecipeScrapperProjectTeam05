@@ -62,6 +62,15 @@ public class ScraperUtility {
 		
 		List<LinkedHashMap<String, String>> allergyData = new ArrayList<LinkedHashMap<String, String>>();
 
+<<<<<<< Updated upstream
+=======
+		// Comparison list : The eliminate,To Add, Allergy
+		List<String> readEliminateList = utilReader.getmorbidityElimination(morbiditi);
+		List<String> readToAddItemList = utilReader.getmorbidityTOADD(morbiditi);
+		//List<String> readToAllergyList = utilReader.getAllergy();
+		String[] readToAllergyList= {"milk","peanuts","almond"};
+		// Click on Recipe button
+>>>>>>> Stashed changes
 		driver.findElement(By.xpath(recipesButton)).click();
 		driver.findElement(By.xpath(morbiditiLink)).click();
 		comnutil.scrollPage(driver);
@@ -72,7 +81,13 @@ public class ScraperUtility {
 		// Thread.sleep(2000);
 		String pages = driver.findElement(By.xpath("//*[@id='pagination']//a[last()]")).getText();
 		int totalPages = Integer.parseInt(pages);
+<<<<<<< Updated upstream
 		for (int i = 1; i <= 1; i++) {
+=======
+		Loggerload.info("Total Pages" + totalPages);
+		// Pagination : Loop through all pages
+		for (int i = 1; i <=1; i++) {
+>>>>>>> Stashed changes
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
@@ -191,6 +206,20 @@ public class ScraperUtility {
 				
 				driver.navigate().back();
 
+<<<<<<< Updated upstream
+=======
+		}
+
+		// Filter Allergy list
+		for (String allergy : readToAllergyList) {
+			for (LinkedHashMap<String, String> recipe : allRecipeData) {
+				isContainAllergyItem = commonUtil.hasAllergyItems(readEliminateList, allergy);
+					
+				if (!isContainAllergyItem) {
+					Loggerload.info("Not Contains allergy item : " + allergy);
+					allergyFilteredData.add(recipe);
+				}
+>>>>>>> Stashed changes
 			}
 
 		}
