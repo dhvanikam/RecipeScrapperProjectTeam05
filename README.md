@@ -1,9 +1,10 @@
-# RecipeScrapperProjectTeam05
+# Recipe Scrapper Project
 ## Table of contents
 * [General info](#general-info)
 * [Tools and Technologies](#tools-and-technologies)
 * [FrameWork](#framework)
 * [Running Project](#running-project)
+* [Reporting](#reporting)
 
 ## General info
 * Introduction : Scraper project 
@@ -25,8 +26,8 @@ flowchart TD
     test-->utilities
     src-->resources
     resources-->config
-    resources-->Exceldata
-    resources-->RecipeExceldata
+    resources-->InputExcelData
+    resources-->OutputRecipeExcelData
     resources-->log4j
 ```
 ## Running Project
@@ -37,7 +38,17 @@ $ cd <Project Directory>
 
 $ mvn clean test
 ```
-Scraping will run in order :
+
+## Reporting
+Allure Report: 
+
+Report will be generated into temp folder. Web server with results will start appearing in your default browser. 
+
+```
+$ cd <Project Directory>
+
+$ allure serve allure-results
+```
 
 HTML Report: 
 
