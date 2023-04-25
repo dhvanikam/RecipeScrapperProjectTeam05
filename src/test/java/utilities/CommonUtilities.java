@@ -51,21 +51,16 @@ public class CommonUtilities {
 		return false;
 	}
 
-	public boolean hasAllergyItems(List<String> eleminateItems, String allergyItem, String recipeIngredients) {
+	public boolean hasAllergyItems(String allergyItem, String recipeIngredients) {
 
-		for (String avoidItem : eleminateItems) {
-			if (recipeIngredients == null) {
-				Loggerload.info("No recipeIngredients");
-			} else {
-				if (recipeIngredients.toUpperCase().contains(avoidItem.toUpperCase())) {
-					return true;
-				}
-				if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
-					return true;
-				}
-			}
+		if (recipeIngredients == null) {
+			Loggerload.info("No recipeIngredients");
+		} else if (recipeIngredients.toUpperCase().contains(allergyItem.toUpperCase())) {
+			return true;
 		}
+
 		return false;
+
 	}
 
 	public String findRecipeCategory(WebDriver driver) {
