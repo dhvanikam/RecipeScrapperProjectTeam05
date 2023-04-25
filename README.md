@@ -38,6 +38,7 @@ $ cd <Project Directory>
 
 $ mvn clean test
 ```
+By default project will run in headless mode
 
 ## Reporting
 Allure Report: 
