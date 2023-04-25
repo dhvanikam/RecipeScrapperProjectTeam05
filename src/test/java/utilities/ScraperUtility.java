@@ -186,7 +186,8 @@ public class ScraperUtility {
 
 				driver.navigate().back();
 			} // recipe loop
-
+			utilWriter.saveDataToExcel(allRecipeData, morbiditi, recipeDataPath);
+			utilWriter.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
 		}
 
 		// Filter Allergy list
@@ -202,9 +203,6 @@ public class ScraperUtility {
 			utilWriter.saveDataToExcel(allergyFilteredData, allergy,
 					allergyDataPath.replace("AllergyData", "AllergyData_" + morbiditi));
 		}
-
-		utilWriter.saveDataToExcel(allRecipeData, morbiditi, recipeDataPath);
-		utilWriter.saveDataToExcel(toAddItemsData, morbiditi, toAddItemRecipePath);
 
 	}
 }
