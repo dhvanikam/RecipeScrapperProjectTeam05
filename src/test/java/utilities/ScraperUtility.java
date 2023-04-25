@@ -193,8 +193,7 @@ public class ScraperUtility {
 		// Filter Allergy list
 		for (String allergy : readToAllergyList) {
 			for (LinkedHashMap<String, String> recipe : allRecipeData) {
-				isContainAllergyItem = commonUtil.hasAllergyItems(readEliminateList, allergy,
-						recipe.get("Ingredients"));
+				isContainAllergyItem = commonUtil.hasAllergyItems(allergy, recipe.get("Ingredients"));
 				if (!isContainAllergyItem) {
 					Loggerload.info("Not Contains allergy item : " + allergy);
 					allergyFilteredData.add(recipe);
