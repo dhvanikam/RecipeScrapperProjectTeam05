@@ -80,7 +80,7 @@ public class ScraperUtility {
 		int totalPages = Integer.parseInt(pages);
 		Loggerload.info("Total Pages" + totalPages);
 		// Pagination : Loop through all pages
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= totalPages; i++) {
 			if (i > 1) {
 				try {
 					String pagenumber = "//*[@id='pagination']/a[" + i + "]";
